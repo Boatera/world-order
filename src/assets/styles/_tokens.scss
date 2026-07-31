@@ -1,0 +1,60 @@
+/**
+ * Design tokens for World Order: Tank Pressure Tracker
+ * Exposing CSS custom properties on :root matching hegemony-taxes aesthetic
+ */
+
+:root {
+  /* ---- Typography ---- */
+  --font-body: 'Lato', system-ui, -apple-system, sans-serif;
+  --font-display: 'Oswald', sans-serif;
+  --font-numeric: 'Teko', sans-serif;
+
+  /* ---- Surface Palette (Dark Hegemony Slate) ---- */
+  --c-app-bg: #1e293b;
+  --c-app-bg-hi: #334155;
+  --c-surface-card: #0f172a;
+  --c-surface-card-hover: #1e293b;
+  --c-surface-settings: #090d16;
+  --c-surface-header: #0f172a;
+
+  /* ---- Elevation & Sheen ---- */
+  --card-border: 1px solid rgba(255, 255, 255, 0.1);
+  --card-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.2) 100%);
+  --shadow-card: 0 4px 14px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-glow-blue: 0 0 15px rgba(59, 130, 246, 0.25);
+  --shadow-glow-yellow: 0 0 15px rgba(234, 179, 8, 0.25);
+  --shadow-glow-red: 0 0 15px rgba(239, 68, 68, 0.25);
+  --shadow-glow-silver: 0 0 15px rgba(203, 213, 225, 0.25);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* ---- Player Accents ---- */
+  --c-player-usa: #3b82f6;
+  --c-player-usa-bg: rgba(59, 130, 246, 0.15);
+  --c-player-eu: #eab308;
+  --c-player-eu-bg: rgba(234, 179, 8, 0.15);
+  --c-player-russia: #cbd5e1;
+  --c-player-russia-bg: rgba(203, 213, 225, 0.15);
+  --c-player-china: #ef4444;
+  --c-player-china-bg: rgba(239, 68, 68, 0.15);
+
+  /* ---- Special Badges ---- */
+  --c-nato-blue: #0284c7;
+  --c-nato-gold: #fbbf24;
+  --c-warn: #ef4444;
+  --c-warn-bg: rgba(239, 68, 68, 0.2);
+  --c-good: #22c55e;
+  --c-good-bg: rgba(34, 197, 94, 0.2);
+
+  /* ---- Neutrals ---- */
+  --c-black: #000;
+  --c-grey-900: #0f172a;
+  --c-grey-800: #1e293b;
+  --c-grey-700: #334155;
+  --c-grey-600: #475569;
+  --c-grey-500: #64748b;
+  --c-grey-400: #94a3b8;
+  --c-grey-300: #cbd5e1;
+  --c-grey-200: #e2e8f0;
+  --c-grey-100: #f1f5f9;
+  --c-white: #ffffff;
+}
