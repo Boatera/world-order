@@ -17,11 +17,13 @@ const props = withDefaults(
   }
 );
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const playerImageMap: Record<PlayerId, string> = {
-  usa: '/images/tank-us.png',
-  eu: '/images/tank-eu.png',
-  russia: '/images/tank-ru.png',
-  china: '/images/tank-cn.png'
+  usa: `${baseUrl}images/tank-us.png`,
+  eu: `${baseUrl}images/tank-eu.png`,
+  russia: `${baseUrl}images/tank-ru.png`,
+  china: `${baseUrl}images/tank-cn.png`
 };
 
 const imageSrc = computed(() => {
@@ -37,23 +39,23 @@ const imageSrc = computed(() => {
         config.borderColor.toLowerCase() === c ||
         config.bgGradient.toLowerCase() === c
       ) {
-        return config.tankImage;
+        return config.tankImage.startsWith('http') ? config.tankImage : `${baseUrl}${config.tankImage.replace(/^\//, '')}`;
       }
     }
     if (c.includes('facc15') || c.includes('eab308') || c.includes('ca8a04') || c.includes('yellow') || c.includes('gold')) {
-      return '/images/tank-eu.png';
+      return `${baseUrl}images/tank-eu.png`;
     }
     if (c.includes('e2e8f0') || c.includes('94a3b8') || c.includes('475569') || c.includes('gray') || c.includes('grey') || c.includes('slate')) {
-      return '/images/tank-ru.png';
+      return `${baseUrl}images/tank-ru.png`;
     }
     if (c.includes('f87171') || c.includes('ef4444') || c.includes('b91c1c') || c.includes('red')) {
-      return '/images/tank-cn.png';
+      return `${baseUrl}images/tank-cn.png`;
     }
     if (c.includes('60a5fa') || c.includes('3b82f6') || c.includes('1d4ed8') || c.includes('blue')) {
-      return '/images/tank-us.png';
+      return `${baseUrl}images/tank-us.png`;
     }
   }
-  return '/images/tank-us.png';
+  return `${baseUrl}images/tank-us.png`;
 });
 
 const computedWidth = computed(() => {
