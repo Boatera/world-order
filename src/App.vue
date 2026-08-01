@@ -3,6 +3,7 @@ import { useGameStore } from '@/stores/game';
 import PlayerSummaryCard from '@/components/PlayerSummaryCard.vue';
 import ZoneCard from '@/components/ZoneCard.vue';
 import SettingsBar from '@/components/SettingsBar.vue';
+import CheckToggle from '@/components/CheckToggle.vue';
 
 const gameStore = useGameStore();
 </script>
@@ -17,6 +18,24 @@ const gameStore = useGameStore();
           :key="pid"
           :summary="gameStore.playerSummaries[pid]"
         />
+
+        <!-- Global Treaties Toggles (New START Treaty & Boundless Friendship) -->
+        <div class="global-treaties-controls">
+          <CheckToggle
+            id="start-treaty-global-toggle"
+            :model-value="gameStore.newStartTreatyActive"
+            @update:model-value="(val) => gameStore.newStartTreatyActive = val"
+            label="New Start Treaty"
+            active-color="linear-gradient(135deg, #2563eb 0%, #ffffff 100%)"
+          >New Start Treaty</CheckToggle>
+          <CheckToggle
+            id="boundless-friendship-global-toggle"
+            :model-value="gameStore.boundlessFriendshipActive"
+            @update:model-value="(val) => gameStore.boundlessFriendshipActive = val"
+            label="Russia-China Boundless Friendship"
+            active-color="linear-gradient(135deg, #ffffff 0%, #dc2626 100%)"
+          >Russia-China Boundless Friendship</CheckToggle>
+        </div>
 
         <!-- Global Accordion Control Buttons -->
         <div class="global-accordion-controls">
@@ -96,6 +115,17 @@ const gameStore = useGameStore();
     flex-direction: column;
     gap: 0.75rem;
   }
+}
+
+.global-treaties-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--c-card-bg, rgba(15, 23, 42, 0.65));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .global-accordion-controls {

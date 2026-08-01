@@ -4,7 +4,7 @@ import { useGameStore } from '@/stores/game';
 const gameStore = useGameStore();
 
 function handleReset() {
-  if (window.confirm('Are you sure you want to reset all forces, influence, and settings?')) {
+  if (window.confirm('Are you sure you want to reset the board state?')) {
     gameStore.resetBoard();
   }
 }
@@ -13,28 +13,6 @@ function handleReset() {
 <template>
   <footer class="settings-bar">
     <div class="settings-container">
-      <div class="left-controls">
-        <button
-          type="button"
-          class="btn-bar btn-toggle"
-          :class="{ active: gameStore.newStartTreatyActive, inactive: !gameStore.newStartTreatyActive }"
-          @click="gameStore.newStartTreatyActive = !gameStore.newStartTreatyActive"
-          title="Toggle New START Treaty (USA & Russia VP penalty reduced to x1)"
-        >
-          <span class="btn-text">New START Treaty</span>
-        </button>
-
-        <button
-          type="button"
-          class="btn-bar btn-toggle"
-          :class="{ active: gameStore.boundlessFriendshipActive, inactive: !gameStore.boundlessFriendshipActive }"
-          @click="gameStore.boundlessFriendshipActive = !gameStore.boundlessFriendshipActive"
-          title="Toggle Russia-China Boundless Friendship (Immunity between Russia & China)"
-        >
-          <span class="btn-text">Boundless Friendship</span>
-        </button>
-      </div>
-
       <div class="right-icon-group">
         <button
           type="button"
@@ -50,7 +28,7 @@ function handleReset() {
           type="button"
           class="icon-btn btn-reset"
           @click="handleReset"
-          title="Reset All Forces & Board State"
+          title="Reset Board State"
         >
           <span class="reset-icon">↺</span>
         </button>
@@ -74,7 +52,7 @@ function handleReset() {
   max-width: 1380px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;

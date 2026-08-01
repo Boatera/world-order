@@ -2,6 +2,7 @@
 import type { PlayerSummary } from '@/types/game';
 import TankIcon from '@/components/TankIcon.vue';
 import InfluenceIcon from '@/components/InfluenceIcon.vue';
+import CheckToggle from '@/components/CheckToggle.vue';
 import { useGameStore } from '@/stores/game';
 
 defineProps<{
@@ -56,31 +57,20 @@ const gameStore = useGameStore();
 
     <!-- Footer Controls (Military Focus & Nuclear Program) -->
     <div class="card-footer-controls">
-      <button
-        type="button"
-        class="mf-toggle-btn"
-        :class="{
-          active: gameStore.isMilitaryFocusActive(summary.player.id),
-          inactive: !gameStore.isMilitaryFocusActive(summary.player.id)
-        }"
-        @click="gameStore.toggleMilitaryFocus(summary.player.id)"
-        title="Toggle Military Focus: +1 Threat (if tanks ≥ 1), +1 Defense (if Zone of Interest)"
-      >
-        <span class="mf-label">Military Focus</span>
-      </button>
-
-      <button
-        type="button"
-        class="nuclear-toggle-btn"
-        :class="{
-          active: gameStore.isNuclearProgramActive(summary.player.id),
-          inactive: !gameStore.isNuclearProgramActive(summary.player.id)
-        }"
-        @click="gameStore.toggleNuclearProgram(summary.player.id)"
-        title="Toggle Nuclear Program: +1 Threat & +1 Defense in all 7 zones (Only 1 player active)"
-      >
-        <span class="nuclear-label">Nuclear Program</span>
-      </button>
+      <CheckToggle
+        :id="'mf-toggle-' + summary.player.id"
+        :model-value="gameStore.isMilitaryFocusActive(summary.player.id)"
+        @update:model-value="gameStore.toggleMilitaryFocus(summary.player.id)"
+        label="Military Focus"
+        :active-color="summary.player.color"
+      />
+      <CheckToggle
+        :id="'nuc-toggle-' + summary.player.id"
+        :model-value="gameStore.isNuclearProgramActive(summary.player.id)"
+        @update:model-value="gameStore.toggleNuclearProgram(summary.player.id)"
+        label="Nuclear Program"
+        :active-color="summary.player.color"
+      />
     </div>
   </div>
 </template>
@@ -196,50 +186,5 @@ const gameStore = useGameStore();
   border-top: 1px dashed rgba(255, 255, 255, 0.2);
   padding-top: 0.35rem;
   margin-top: 0.25rem;
-}
-
-.mf-toggle-btn,
-.nuclear-toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  font-family: var(--font-numeric), var(--font-primary), sans-serif;
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: capitalize;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-  background: rgba(15, 23, 42, 0.65);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-radius: 0.45rem;
-  padding: 0.25rem 0.2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  user-select: none;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-
-  @media (max-width: 640px) {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.15rem;
-  }
-
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.7);
-    background: rgba(15, 23, 42, 0.85);
-    color: #ffffff;
-  }
-
-  &.inactive {
-    opacity: 0.45;
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-  }
-
-  &.active {
-    opacity: 1;
-    text-decoration: none;
-  }
 }
 </style>

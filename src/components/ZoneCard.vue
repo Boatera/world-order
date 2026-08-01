@@ -9,6 +9,7 @@ import InfluenceIcon from './InfluenceIcon.vue';
 import DefenseIcon from './DefenseIcon.vue';
 import ThreatIcon from './ThreatIcon.vue';
 import PenaltyBadge from './PenaltyBadge.vue';
+import CheckToggle from './CheckToggle.vue';
 
 const props = defineProps<{
   calculation: ZoneCalculation;
@@ -64,15 +65,13 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
       </div>
       <div class="header-right-tags" @click.stop>
         <div class="vp-rewards-row">
-          <button
-            type="button"
-            class="vp-range-pill-btn"
-            :class="{ disabled: !gameStore.isZoneScoringActive(zone.id) }"
-            :title="gameStore.isZoneScoringActive(zone.id) ? 'Scoring Phase ON - Click to turn OFF' : 'Scoring Phase OFF - Click to turn ON'"
-            @click="gameStore.toggleZoneScoringActive(zone.id)"
-          >
-            {{ zone.influenceVpTable.join(' / ') }}
-          </button>
+          <CheckToggle
+            :id="'scoring-toggle-' + zone.id"
+            :model-value="gameStore.isZoneScoringActive(zone.id)"
+            @update:model-value="gameStore.toggleZoneScoringActive(zone.id)"
+            :label="zone.influenceVpTable.join(' / ')"
+            :active-color="zone.color"
+          />
 
           <button
             type="button"
