@@ -64,17 +64,6 @@ export const ZONES: ZoneConfig[] = [
     influenceVpTable: [9, 6, 3, 1]
   },
   {
-    id: 'central_asia',
-    name: 'Central Asia',
-    code: 'CAS',
-    description: 'Shared strategic sphere of influence between Russia and China.',
-    interestedPlayers: ['russia', 'china'],
-    color: '#fbbf24',
-    borderColor: '#d97706',
-    bgGradient: '#b45309',
-    influenceVpTable: [8, 4, 2, 0]
-  },
-  {
     id: 'mena',
     name: 'Middle East North Africa',
     code: 'MENA',
@@ -95,6 +84,17 @@ export const ZONES: ZoneConfig[] = [
     borderColor: '#b45309',
     bgGradient: '#92400e',
     influenceVpTable: [7, 4, 2, 0]
+  },
+  {
+    id: 'central_asia',
+    name: 'Central Asia',
+    code: 'CAS',
+    description: 'Shared strategic sphere of influence between Russia and China.',
+    interestedPlayers: ['russia', 'china'],
+    color: '#fbbf24',
+    borderColor: '#d97706',
+    bgGradient: '#b45309',
+    influenceVpTable: [8, 4, 2, 0]
   },
   {
     id: 'south_asia',
