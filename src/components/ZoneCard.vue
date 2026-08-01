@@ -307,7 +307,7 @@ function getPlayerPressure(pid: PlayerId) {
               class="player-breakdown-item"
             >
               <div class="target-player" :style="{ color: PLAYERS[pid].color }">
-                <strong>{{ PLAYERS[pid].shortName }}</strong> (Threat: {{ getPlayerPressure(pid).threat }}, Defense: {{ getPlayerPressure(pid).defense }}):
+                <strong>{{ PLAYERS[pid].shortName }}</strong> (Defense: {{ getPlayerPressure(pid).defense }}):
               </div>
               <div class="opponent-formulas">
                 <div
