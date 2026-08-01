@@ -48,25 +48,6 @@ function getPlayerPressure(pid: PlayerId) {
               {{ zone.code }}
             </span>
           </div>
-
-          <div class="lead-chips-row">
-            <span class="label">Lead:</span>
-            <div v-if="calculation.dominance.leaders.length > 0" class="tags-list">
-              <span
-                v-for="pid in calculation.dominance.leaders"
-                :key="'lead-' + pid"
-                class="player-tag"
-                :style="{
-                  color: PLAYERS[pid].color,
-                  borderColor: PLAYERS[pid].borderColor,
-                  background: PLAYERS[pid].bgGradient
-                }"
-              >
-                {{ PLAYERS[pid].shortName }}
-              </span>
-            </div>
-            <span v-else class="no-lead-dash">—</span>
-          </div>
         </div>
       </div>
       <div class="header-right-tags">
@@ -473,51 +454,6 @@ function getPlayerPressure(pid: PlayerId) {
       text-decoration: line-through;
       text-decoration-thickness: 2px;
     }
-  }
-}
-
-.lead-chips-row {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.35rem;
-
-  .label {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  }
-
-  .tags-list {
-    display: flex;
-    gap: 0.35rem;
-    flex-wrap: wrap;
-  }
-
-  .player-tag {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.15rem 0.45rem;
-    border-radius: 0.4rem;
-    border: 1px solid;
-
-    &.black-tag {
-      background: rgba(0, 0, 0, 0.6);
-      color: var(--c-white);
-      border-color: rgba(255, 255, 255, 0.3);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-  }
-
-  .no-lead-dash {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
-    font-weight: 700;
   }
 }
 
