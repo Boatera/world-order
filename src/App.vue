@@ -73,22 +73,19 @@ const gameStore = useGameStore();
 
 .zones-main-section {
   flex: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: start;
-  gap: 1rem;
+  column-count: 2;
+  column-gap: 1rem;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
 
   @media (max-width: 1280px) and (min-width: 1024px) {
-    grid-template-columns: 1fr;
+    column-count: 1;
   }
 
   @media (max-width: 1023px) {
-    width: 100%;
-    max-width: 100%;
+    column-count: 1;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;

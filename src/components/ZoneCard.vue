@@ -347,15 +347,19 @@ function getPlayerPressure(pid: PlayerId) {
 
 <style scoped lang="scss">
 .zone-card {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   gap: 1rem;
   border-width: 1px;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  height: auto;
-  align-self: start;
+  margin-bottom: 1rem;
+  break-inside: avoid;
+
+  @media (max-width: 1023px) {
+    margin-bottom: 0;
+  }
 }
 
 .zone-header {
