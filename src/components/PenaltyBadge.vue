@@ -22,7 +22,6 @@ const computedSize = computed(() => {
       width: computedSize,
       height: computedSize
     }"
-    title="VP Penalty in this zone!"
   >
     <svg
       viewBox="0 0 27.963 27.963"
