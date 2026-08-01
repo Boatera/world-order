@@ -705,6 +705,34 @@ function getPlayerPressure(pid: PlayerId) {
     justify-content: center;
     align-items: center;
     min-height: 1.8rem;
+
+    .inf-vp-pill {
+      font-family: var(--font-numeric);
+      font-size: 1.25rem;
+      font-weight: 800;
+      padding: 0.1rem 0.2rem;
+      border-radius: 0;
+      min-width: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      white-space: nowrap;
+      color: #ffffff;
+      background: transparent;
+      border: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+
+      @media (max-width: 640px) {
+        font-size: 1.1rem;
+        padding: 0;
+        min-width: 1.2rem;
+      }
+
+      &.safe {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
   }
 }
 
@@ -854,35 +882,6 @@ function getPlayerPressure(pid: PlayerId) {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .inf-vp-pill {
-    font-family: var(--font-numeric);
-    font-size: 1.25rem;
-    font-weight: 800;
-    padding: 0.1rem 0.2rem;
-    border-radius: 0;
-    min-width: 1.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    white-space: nowrap;
-    color: #ffffff;
-    background: transparent;
-    border: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-
-    @media (max-width: 640px) {
-      font-size: 1.1rem;
-      padding: 0;
-      min-width: 1.2rem;
-    }
-
-    &.safe {
-      color: rgba(255, 255, 255, 0.5);
-      border-color: transparent;
-    }
   }
 
   .no-zoi-dash {
