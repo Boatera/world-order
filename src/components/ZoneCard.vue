@@ -158,7 +158,6 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
           >
             <div class="col-header-name" style="color: #ffffff;">
               {{ PLAYERS[pid].shortName }}
-              <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
             </div>
             <div class="col-input-cell">
               <NumberInput
@@ -214,10 +213,7 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
             }"
           >
             <div class="player-info-cell">
-              <span class="name" style="color: #ffffff;">
-                {{ PLAYERS[pid].shortName }}
-                <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
-              </span>
+              <span class="name" style="color: #ffffff;">{{ PLAYERS[pid].shortName }}</span>
             </div>
 
             <!-- Tank Input -->
