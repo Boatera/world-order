@@ -280,7 +280,7 @@ function getPlayerPressure(pid: PlayerId) {
               class="inf-rank-item"
             >
               <span class="rank-pos">
-                {{ r.rank === 1 ? '1st' : r.rank === 2 ? '2nd' : r.rank === 3 ? '3rd' : '4th' }}
+                {{ (r.isTie ? r.bonusRank : r.rank) === 1 ? '1st' : (r.isTie ? r.bonusRank : r.rank) === 2 ? '2nd' : (r.isTie ? r.bonusRank : r.rank) === 3 ? '3rd' : '4th' }}
               </span>
               <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
                 {{ PLAYERS[r.playerId].shortName }}
