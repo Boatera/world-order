@@ -373,6 +373,9 @@ function getPlayerPressure(pid: PlayerId) {
   flex-direction: column;
   gap: 1rem;
   border-width: 1px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .zone-header {

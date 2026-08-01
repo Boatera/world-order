@@ -44,9 +44,12 @@ const gameStore = useGameStore();
   gap: 1.25rem;
   align-items: flex-start;
   width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: 1023px) {
     flex-direction: column;
+    gap: 1rem;
+    width: 100%;
   }
 }
 
@@ -55,18 +58,16 @@ const gameStore = useGameStore();
   flex-direction: column;
   gap: 0.85rem;
   width: 350px;
+  max-width: 100%;
   flex-shrink: 0;
+  box-sizing: border-box;
 
   @media (max-width: 1023px) {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
-  }
-
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
   }
 }
 
@@ -75,14 +76,20 @@ const gameStore = useGameStore();
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
+  box-sizing: border-box;
 
   @media (max-width: 1280px) and (min-width: 1024px) {
     grid-template-columns: 1fr;
   }
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 1023px) {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
   }
 }

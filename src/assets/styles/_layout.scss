@@ -69,6 +69,7 @@
   box-shadow: var(--shadow-card);
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 
   @include bp.below('sm') {
