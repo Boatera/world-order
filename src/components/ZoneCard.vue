@@ -354,6 +354,8 @@ function getPlayerPressure(pid: PlayerId) {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  height: auto;
+  align-self: start;
 }
 
 .zone-header {

@@ -75,6 +75,7 @@ const gameStore = useGameStore();
   flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  align-items: start;
   gap: 1rem;
   width: 100%;
   max-width: 100%;
