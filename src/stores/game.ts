@@ -264,11 +264,11 @@ export const useGameStore = defineStore('game', () => {
           let vpPenalty = 0;
 
           // THREAT Resolution:
-          // Lose VPs for every opponent who has more THREAT than player has Defense (oppThreat > playerDefense)
+          // Lose flat -2 VP per opposing player that has more THREAT than player has Defense (oppThreat > playerDefense)
           if (!isNato && !isBoundless && oppThreat > playerDefense) {
             diff = oppThreat - playerDefense;
-            pressure = -diff;
-            vpPenalty = pressure * vpMultiplier;
+            pressure = -1;
+            vpPenalty = -1 * vpMultiplier;
           }
 
           if (oppTanks > 0 || oppThreat > 0 || isNato || isBoundless) {

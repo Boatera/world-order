@@ -306,9 +306,8 @@ function getPlayerPressure(pid: PlayerId) {
                   🤝 Boundless Exempt (0)
                 </span>
                 <span v-else-if="bd.pressure < 0" class="formula-result warn-text">
-                  Diff: -{{ bd.difference }} ➔ VP: <strong>{{ bd.vpPenalty }}</strong>
+                  Threat {{ bd.opponentThreat }} > Def {{ bd.playerDefense }} ➔ VP: <strong>{{ bd.vpPenalty }}</strong>
                   <small v-if="bd.isNewStartTreaty" class="treaty-tag"> (📜 START x1)</small>
-                  <small v-else class="treaty-tag"> (x2)</small>
                 </span>
                 <span v-else class="formula-result safe-text">
                   Defended (Threat {{ bd.opponentThreat }} ≤ Def {{ bd.playerDefense }}) (0)
