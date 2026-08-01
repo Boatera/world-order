@@ -4,6 +4,9 @@ import type { ZoneCalculation, PlayerId } from '@/types/game';
 import { PLAYERS } from '@/data/gameData';
 import { useGameStore } from '@/stores/game';
 import NumberInput from './NumberInput.vue';
+import TankIcon from './TankIcon.vue';
+import InfluenceIcon from './InfluenceIcon.vue';
+import DefenseIcon from './DefenseIcon.vue';
 
 const props = defineProps<{
   calculation: ZoneCalculation;
@@ -85,17 +88,17 @@ function getPlayerPressure(pid: PlayerId) {
         </div>
         <div class="min-stats-row">
           <div class="stat-pill inf-pill" title="Influence">
-            <span class="stat-label">INF:</span>
+            <InfluenceIcon :color="PLAYERS[pid].color" :size="13" />
             <span class="stat-val">{{ gameStore.getInfluenceCount(zone.id, pid) }}</span>
           </div>
 
-          <div class="stat-pill thr-pill" title="Total Threat">
-            <span class="stat-label">THR:</span>
+          <div class="stat-pill thr-pill" title="Total Threat (Tanks + Military Focus)">
+            <TankIcon :player-id="pid" :color="PLAYERS[pid].color" :width="16" :height="10" />
             <span class="stat-val">{{ getPlayerPressure(pid).threat }}</span>
           </div>
 
-          <div class="stat-pill def-pill" title="Total Defense">
-            <span class="stat-label">DEF:</span>
+          <div class="stat-pill def-pill" title="Total Defense (Defense + Military Focus)">
+            <DefenseIcon :size="13" />
             <span class="stat-val">{{ getPlayerPressure(pid).defense }}</span>
           </div>
         </div>
@@ -560,22 +563,19 @@ function getPlayerPressure(pid: PlayerId) {
     .stat-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.15rem;
-      font-size: 0.65rem;
+      gap: 0.25rem;
+      font-size: 0.7rem;
       background: rgba(15, 23, 42, 0.55);
-      padding: 0.1rem 0.3rem;
-      border-radius: 0.25rem;
+      padding: 0.15rem 0.35rem;
+      border-radius: 0.3rem;
       border: 1px solid rgba(255, 255, 255, 0.15);
-
-      .stat-label {
-        color: rgba(255, 255, 255, 0.7);
-        font-weight: 700;
-      }
 
       .stat-val {
         font-family: var(--font-numeric);
         font-weight: 800;
         color: #ffffff;
+        font-size: 0.85rem;
+        line-height: 1;
       }
     }
   }
