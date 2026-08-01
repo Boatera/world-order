@@ -43,11 +43,11 @@ const computedSize = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: -2px;
-  vertical-align: top;
-  position: relative;
-  top: -6px;
+  position: absolute;
+  top: -4px;
+  right: -12px;
   filter: drop-shadow(0 0 1.5px rgba(255, 17, 0, 0.7));
+  pointer-events: none;
 }
 
 .penalty-svg-icon {

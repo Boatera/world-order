@@ -559,6 +559,8 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
     justify-content: space-between;
 
     .min-player-name {
+      position: relative;
+      display: inline-block;
       font-size: 0.78rem;
       font-weight: 800;
       text-transform: uppercase;
