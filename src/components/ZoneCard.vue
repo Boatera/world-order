@@ -323,10 +323,10 @@ function getPlayerPressure(pid: PlayerId) {
                     vs {{ PLAYERS[bd.opponentId].shortName }} (Threat: {{ bd.opponentThreat }})
                   </span>
                   <span v-if="bd.isNatoExempt" class="formula-result nato-text">
-                    🛡️ NATO Exempt (0)
+                    NATO Exempt (0)
                   </span>
                   <span v-else-if="bd.isBoundlessExempt" class="formula-result boundless-text">
-                    🤝 Boundless Exempt (0)
+                    Boundless Exempt (0)
                   </span>
                   <span v-else-if="bd.pressure < 0" class="formula-result warn-text">
                     Threat {{ bd.opponentThreat }} > Def {{ bd.playerDefense }} ➔ VP: <strong>{{ bd.vpPenalty }}</strong>
