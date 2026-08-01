@@ -176,36 +176,40 @@ function getPlayerPressure(pid: PlayerId) {
       <!-- Threat & Defense Table -->
       <div class="threat-table-section">
         <div class="table-title">Threat & Defense</div>
-        <div class="threat-grid">
+        <div class="threat-grid-container">
           <!-- Header Row -->
-          <div class="threat-grid-header">
-            <div class="cell-h">Faction</div>
-            <div class="cell-h">Tank</div>
-            <div class="cell-h">Defense</div>
-            <div class="cell-h" title="Total Threat (Tanks + Military Focus)">THR</div>
-            <div class="cell-h" title="Total Defense (Tanks + Defense Input + Military Focus)">DEF</div>
-            <div class="cell-h" title="Threat Phase Penalty">PEN</div>
+          <div class="threat-header-row">
+            <span class="col-title">Faction</span>
+            <span class="col-title center">Tank</span>
+            <span class="col-title center">Defense</span>
+            <span class="col-title center desktop-only">Threat Total</span>
+            <span class="col-title center mobile-only">Thr</span>
+            <span class="col-title center desktop-only">Defense Total</span>
+            <span class="col-title center mobile-only">Def</span>
+            <span class="col-title center desktop-only">Penalty</span>
+            <span class="col-title center mobile-only">Pen</span>
           </div>
 
           <!-- Player Rows -->
           <div
             v-for="pid in ALL_PLAYERS"
             :key="'threat-row-' + pid"
-            class="threat-grid-row"
+            class="threat-player-row"
             :class="{
-              'is-zoi': isInterested(pid),
-              'not-zoi': !isInterested(pid)
+              'has-interest': isInterested(pid),
+              'no-interest': !isInterested(pid)
             }"
             :style="{
               background: PLAYERS[pid].bgGradient,
               borderColor: PLAYERS[pid].borderColor
             }"
           >
-            <div class="cell faction-cell" :style="{ color: PLAYERS[pid].color }">
-              <strong>{{ PLAYERS[pid].shortName }}</strong>
+            <div class="player-info-cell">
+              <span class="name" :style="{ color: PLAYERS[pid].color }">{{ PLAYERS[pid].shortName }}</span>
             </div>
 
-            <div class="cell input-cell">
+            <!-- Tank Input -->
+            <div class="controls-cell tank-cell">
               <NumberInput
                 :model-value="gameStore.getTankCount(zone.id, pid)"
                 @update:model-value="(val) => gameStore.setTankCount(zone.id, pid, val)"
@@ -213,28 +217,56 @@ function getPlayerPressure(pid: PlayerId) {
               />
             </div>
 
-            <div class="cell input-cell">
-              <NumberInput
-                v-if="isInterested(pid)"
-                :model-value="gameStore.getDefenseCount(zone.id, pid)"
-                @update:model-value="(val) => gameStore.setDefenseCount(zone.id, pid, val)"
-                :color="PLAYERS[pid].color"
-              />
-              <span v-else class="not-zoi-dash">—</span>
+            <!-- Defense Input -->
+            <div class="controls-cell defense-cell">
+              <template v-if="isInterested(pid)">
+                <NumberInput
+                  :model-value="gameStore.getDefenseCount(zone.id, pid)"
+                  :min="0"
+                  @update:model-value="(val) => gameStore.setDefenseCount(zone.id, pid, val)"
+                  :color="PLAYERS[pid].color"
+                />
+              </template>
+              <template v-else>
+                <span class="no-zoi-dash">—</span>
+              </template>
             </div>
 
-            <div class="cell stat-cell threat-val">
-              <span>{{ getPlayerPressure(pid).threat }}</span>
+            <!-- Threat Total -->
+            <div class="badge-cell threat-total-cell">
+              <span class="calc-badge">
+                {{ getPlayerPressure(pid).threat }}
+              </span>
             </div>
 
-            <div class="cell stat-cell def-val">
-              <span v-if="isInterested(pid)">{{ getPlayerPressure(pid).defense }}</span>
-              <span v-else class="not-zoi-dash">—</span>
+            <!-- Defense Total -->
+            <div class="badge-cell defense-total-cell">
+              <template v-if="isInterested(pid)">
+                <span class="calc-badge">
+                  {{ getPlayerPressure(pid).defense }}
+                </span>
+              </template>
+              <template v-else>
+                <span class="no-zoi-dash">—</span>
+              </template>
             </div>
 
-            <div class="cell stat-cell pen-val" :class="{ penalized: getPlayerPressure(pid).totalVpPenalty < 0 }">
-              <span v-if="isInterested(pid)">{{ getPlayerPressure(pid).totalVpPenalty }}</span>
-              <span v-else class="not-zoi-dash">—</span>
+            <!-- Penalty -->
+            <div class="pressure-cell penalty-cell">
+              <template v-if="isInterested(pid)">
+                <span
+                  class="pressure-pill"
+                  :class="{
+                    penalized: getPlayerPressure(pid).totalVpPenalty < 0,
+                    safe: getPlayerPressure(pid).totalVpPenalty === 0
+                  }"
+                >
+                  {{ getPlayerPressure(pid).totalVpPenalty }}
+                </span>
+              </template>
+              <template v-else>
+                <span class="no-zoi-dash">—</span>
+              </template>
             </div>
           </div>
         </div>
