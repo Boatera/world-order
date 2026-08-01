@@ -79,7 +79,7 @@ const gameStore = useGameStore();
         @click="gameStore.toggleNuclearProgram(summary.player.id)"
         title="Toggle Nuclear Program: +1 Threat & +1 Defense in all 7 zones (Only 1 player active)"
       >
-        <span class="nuclear-label">☢️ Nuclear Program</span>
+        <span class="nuclear-label">Nuclear Program</span>
       </button>
     </div>
   </div>
@@ -188,10 +188,9 @@ const gameStore = useGameStore();
 }
 
 .card-footer-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
   width: 100%;
   border-top: 1px dashed rgba(255, 255, 255, 0.2);
   padding-top: 0.5rem;
@@ -205,23 +204,24 @@ const gameStore = useGameStore();
   justify-content: center;
   width: 100%;
   font-family: var(--font-numeric), var(--font-primary), sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: #ffffff;
   background: rgba(15, 23, 42, 0.65);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   border-radius: 0.5rem;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.25rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
+  white-space: nowrap;
 
   @media (max-width: 640px) {
-    font-size: 0.88rem;
-    padding: 0.3rem 0.5rem;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.2rem;
   }
 
   &:hover {
@@ -239,14 +239,6 @@ const gameStore = useGameStore();
   &.active {
     opacity: 1;
     text-decoration: none;
-  }
-}
-
-.nuclear-toggle-btn {
-  &.active {
-    background: rgba(220, 38, 38, 0.4);
-    border-color: rgba(248, 113, 113, 0.9);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
   }
 }
 </style>
