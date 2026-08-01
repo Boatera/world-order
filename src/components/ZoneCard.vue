@@ -8,6 +8,7 @@ import TankIcon from './TankIcon.vue';
 import InfluenceIcon from './InfluenceIcon.vue';
 import DefenseIcon from './DefenseIcon.vue';
 import ThreatIcon from './ThreatIcon.vue';
+import PenaltyBadge from './PenaltyBadge.vue';
 
 const props = defineProps<{
   calculation: ZoneCalculation;
@@ -86,11 +87,7 @@ function getPlayerPressure(pid: PlayerId) {
         <div class="min-header">
           <span class="min-player-name" style="color: #ffffff;">
             {{ PLAYERS[pid].shortName }}
-            <span
-              v-if="getPlayerPressure(pid).totalVpPenalty < 0"
-              class="penalty-badge-top-right"
-              title="VP Penalty in this zone!"
-            >!</span>
+            <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
           </span>
           <span v-if="(calculation.playerInfluenceVp[pid] ?? 0) > 0" class="min-vp-badge">
             +{{ calculation.playerInfluenceVp[pid] }} VP
@@ -153,11 +150,7 @@ function getPlayerPressure(pid: PlayerId) {
           >
             <div class="col-header-name" style="color: #ffffff;">
               {{ PLAYERS[pid].shortName }}
-              <span
-                v-if="getPlayerPressure(pid).totalVpPenalty < 0"
-                class="penalty-badge-top-right"
-                title="VP Penalty in this zone!"
-              >!</span>
+              <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
             </div>
             <div class="col-input-cell">
               <NumberInput
@@ -215,11 +208,7 @@ function getPlayerPressure(pid: PlayerId) {
             <div class="player-info-cell">
               <span class="name" style="color: #ffffff;">
                 {{ PLAYERS[pid].shortName }}
-                <span
-                  v-if="getPlayerPressure(pid).totalVpPenalty < 0"
-                  class="penalty-badge-top-right"
-                  title="VP Penalty in this zone!"
-                >!</span>
+                <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
               </span>
             </div>
 
@@ -529,27 +518,6 @@ function getPlayerPressure(pid: PlayerId) {
       transform: rotate(180deg);
     }
   }
-}
-
-.penalty-badge-top-right {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  background: #ff1100;
-  color: #000000;
-  font-family: var(--font-body), sans-serif;
-  font-weight: 900;
-  font-size: 10px;
-  line-height: 1;
-  border-radius: 50%;
-  border: 1.5px solid #000000;
-  box-shadow: 0 0 6px #ff1100, 0 0 10px rgba(255, 17, 0, 0.85);
-  margin-left: 3px;
-  vertical-align: top;
-  position: relative;
-  top: -3px;
 }
 
 .minimalist-summary-grid {
