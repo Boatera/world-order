@@ -83,9 +83,10 @@ export const useGameStore = defineStore('game', () => {
     { usa: false, eu: false, russia: false, china: false }
   );
 
-  const boundlessFriendshipActive = useStorage<boolean>('world-order-boundless-friendship', true);
-  const newStartTreatyActive = useStorage<boolean>('world-order-new-start-treaty', true);
-  const showFormulas = useStorage<boolean>('world-order-show-formulas', true);
+  const nuclearProgramPlayerId = useStorage<PlayerId | null>('world-order-nuclear-program', null);
+  const boundlessFriendshipActive = useStorage<boolean>('world-order-boundless-friendship', false);
+  const newStartTreatyActive = useStorage<boolean>('world-order-new-start-treaty', false);
+  const showFormulas = useStorage<boolean>('world-order-show-formulas', false);
 
   // Helper getters
   const getTankCount = (zoneId: ZoneId, playerId: PlayerId): number => {
@@ -158,6 +159,18 @@ export const useGameStore = defineStore('game', () => {
     setMilitaryFocusActive(playerId, !isMilitaryFocusActive(playerId));
   };
 
+  const isNuclearProgramActive = (playerId: PlayerId): boolean => {
+    return nuclearProgramPlayerId.value === playerId;
+  };
+
+  const toggleNuclearProgram = (playerId: PlayerId) => {
+    if (nuclearProgramPlayerId.value === playerId) {
+      nuclearProgramPlayerId.value = null;
+    } else {
+      nuclearProgramPlayerId.value = playerId;
+    }
+  };
+
   // Reset board to initial default state
   const resetBoard = () => {
     tanks.value = createInitialTanksMap();
@@ -165,6 +178,10 @@ export const useGameStore = defineStore('game', () => {
     defense.value = createInitialDefenseMap();
     zoneScoringActive.value = createInitialZoneScoringMap();
     militaryFocusActive.value = { usa: false, eu: false, russia: false, china: false };
+    nuclearProgramPlayerId.value = null;
+    boundlessFriendshipActive.value = false;
+    newStartTreatyActive.value = false;
+    showFormulas.value = false;
   };
 
   // Load preset
@@ -175,6 +192,7 @@ export const useGameStore = defineStore('game', () => {
       defense.value = createInitialDefenseMap();
       zoneScoringActive.value = createInitialZoneScoringMap();
       militaryFocusActive.value = { usa: false, eu: false, russia: false, china: false };
+      nuclearProgramPlayerId.value = null;
     }
   };
 
@@ -210,14 +228,13 @@ export const useGameStore = defineStore('game', () => {
         const inf = getInfluenceCount(zone.id, pid);
         const hasInterest = zone.interestedPlayers.includes(pid);
         const hasMF = isMilitaryFocusActive(pid);
+        const hasNuclear = isNuclearProgramActive(pid);
 
-        // Attacker Threat = 0 if 0 tanks, otherwise Tanks + (Military Focus ? 1 : 0)
-        const threat = t >= 1 ? t + (hasMF ? 1 : 0) : 0;
+        // Attacker Threat = Tanks + (Military Focus ? 1 : 0) (if tanks >= 1) + (Nuclear Program ? 1 : 0)
+        let threat = (t >= 1 ? t + (hasMF ? 1 : 0) : 0) + (hasNuclear ? 1 : 0);
 
-        // Defender Total Defense = Tanks + Defense Input + (Military Focus ? 1 : 0) (for ZOI player)
-        const totalDefense = hasInterest
-          ? t + getDefenseCount(zone.id, pid) + (hasMF ? 1 : 0)
-          : 0;
+        // Defender Total Defense = Tanks + Defense Input + (Military Focus ? 1 : 0) (for ZOI player) + (Nuclear Program ? 1 : 0)
+        let totalDefense = (hasInterest ? t + getDefenseCount(zone.id, pid) + (hasMF ? 1 : 0) : 0) + (hasNuclear ? 1 : 0);
 
         playerPressures[pid].hasInterest = hasInterest;
         playerPressures[pid].tanks = t;
@@ -536,6 +553,7 @@ export const useGameStore = defineStore('game', () => {
     defense,
     zoneScoringActive,
     militaryFocusActive,
+    nuclearProgramPlayerId,
     boundlessFriendshipActive,
     newStartTreatyActive,
     showFormulas,
@@ -549,6 +567,8 @@ export const useGameStore = defineStore('game', () => {
     isMilitaryFocusActive,
     setMilitaryFocusActive,
     toggleMilitaryFocus,
+    isNuclearProgramActive,
+    toggleNuclearProgram,
     getTotalForce,
     setTankCount,
     setInfluenceCount,

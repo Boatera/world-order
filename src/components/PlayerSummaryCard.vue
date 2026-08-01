@@ -54,7 +54,7 @@ const gameStore = useGameStore();
       </div>
     </div>
 
-    <!-- Footer Military Focus Toggle -->
+    <!-- Footer Controls (Military Focus & Nuclear Program) -->
     <div class="card-footer-controls">
       <button
         type="button"
@@ -64,9 +64,22 @@ const gameStore = useGameStore();
           inactive: !gameStore.isMilitaryFocusActive(summary.player.id)
         }"
         @click="gameStore.toggleMilitaryFocus(summary.player.id)"
-        title="Toggle Military Focus"
+        title="Toggle Military Focus: +1 Threat (if tanks ≥ 1), +1 Defense (if Zone of Interest)"
       >
         <span class="mf-label">Military Focus</span>
+      </button>
+
+      <button
+        type="button"
+        class="nuclear-toggle-btn"
+        :class="{
+          active: gameStore.isNuclearProgramActive(summary.player.id),
+          inactive: !gameStore.isNuclearProgramActive(summary.player.id)
+        }"
+        @click="gameStore.toggleNuclearProgram(summary.player.id)"
+        title="Toggle Nuclear Program: +1 Threat & +1 Defense in all 7 zones (Only 1 player active)"
+      >
+        <span class="nuclear-label">☢️ Nuclear Program</span>
       </button>
     </div>
   </div>
@@ -176,21 +189,23 @@ const gameStore = useGameStore();
 
 .card-footer-controls {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.35rem;
   width: 100%;
   border-top: 1px dashed rgba(255, 255, 255, 0.2);
   padding-top: 0.5rem;
   margin-top: 0.35rem;
 }
 
-.mf-toggle-btn {
+.mf-toggle-btn,
+.nuclear-toggle-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   font-family: var(--font-numeric), var(--font-primary), sans-serif;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -198,15 +213,15 @@ const gameStore = useGameStore();
   background: rgba(15, 23, 42, 0.65);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   border-radius: 0.5rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.35rem 0.75rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
 
   @media (max-width: 640px) {
-    font-size: 0.95rem;
-    padding: 0.3rem 0.65rem;
+    font-size: 0.88rem;
+    padding: 0.3rem 0.5rem;
   }
 
   &:hover {
@@ -224,6 +239,14 @@ const gameStore = useGameStore();
   &.active {
     opacity: 1;
     text-decoration: none;
+  }
+}
+
+.nuclear-toggle-btn {
+  &.active {
+    background: rgba(220, 38, 38, 0.4);
+    border-color: rgba(248, 113, 113, 0.9);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
   }
 }
 </style>
