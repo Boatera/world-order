@@ -62,7 +62,8 @@ function handleReset() {
 <style scoped lang="scss">
 .settings-bar {
   position: relative;
-  margin-top: 1.5rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
   background: var(--c-surface-settings);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;

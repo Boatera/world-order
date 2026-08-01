@@ -36,10 +36,14 @@ const gameStore = useGameStore();
 
 <style scoped lang="scss">
 .app-root {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
 }
 
 .dashboard-layout {
+  flex: 1;
   display: flex;
   gap: 1.25rem;
   align-items: flex-start;
