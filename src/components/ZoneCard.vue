@@ -109,7 +109,18 @@ function getPlayerPressure(pid: PlayerId) {
     <div v-if="isExpanded" class="zone-details-container">
       <!-- Influence Table -->
       <div class="influence-table-section">
-        <div class="table-title">Influence</div>
+        <div class="table-title-row">
+          <div class="table-title">Influence</div>
+          <div class="neutral-counter-inline" title="Neutral Influence in this zone">
+            <span class="neutral-label">Neutral</span>
+            <NumberInput
+              :model-value="gameStore.getInfluenceCount(zone.id, 'black')"
+              @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, 'black', val)"
+              color="#94a3b8"
+            />
+          </div>
+        </div>
+
         <div class="influence-columns-grid">
           <!-- USA, EU, Russia, China -->
           <div
@@ -141,21 +152,6 @@ function getPlayerPressure(pid: PlayerId) {
               >
                 {{ (calculation.playerInfluenceVp[pid] ?? 0) > 0 ? '+' + calculation.playerInfluenceVp[pid] : '0' }}
               </span>
-            </div>
-          </div>
-
-          <!-- Neutral Column -->
-          <div class="influence-col-item neutral-col-item">
-            <div class="col-header-name neutral-title">Neutral</div>
-            <div class="col-input-cell">
-              <NumberInput
-                :model-value="gameStore.getInfluenceCount(zone.id, 'black')"
-                @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, 'black', val)"
-                color="#94a3b8"
-              />
-            </div>
-            <div class="col-result-cell">
-              <span class="inf-vp-pill neutral-pill">—</span>
             </div>
           </div>
         </div>
@@ -577,6 +573,22 @@ function getPlayerPressure(pid: PlayerId) {
   }
 }
 
+.table-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.5rem;
+  margin-top: 0.6rem;
+
+  .table-title {
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+  }
+}
+
 .table-title {
   font-size: 0.85rem;
   font-weight: 800;
@@ -587,6 +599,20 @@ function getPlayerPressure(pid: PlayerId) {
   border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
   margin-bottom: 0.5rem;
   margin-top: 0.6rem;
+}
+
+.neutral-counter-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  .neutral-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
 }
 
 .mobile-label {
@@ -616,14 +642,14 @@ function getPlayerPressure(pid: PlayerId) {
   }
 }
 
-/* Influence Table Section (5 horizontal columns) */
+/* Influence Table Section (4 horizontal columns) */
 .influence-columns-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.4rem;
 
   @media (max-width: 640px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.2rem;
   }
 }
