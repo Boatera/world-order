@@ -205,7 +205,7 @@ const gameStore = useGameStore();
   width: 100%;
   font-family: var(--font-numeric), var(--font-primary), sans-serif;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #ffffff;
