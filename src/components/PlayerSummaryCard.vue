@@ -93,13 +93,14 @@ const gameStore = useGameStore();
   border-width: 1px;
   position: relative;
   overflow: hidden;
+  padding: 0.65rem 0.85rem !important;
 }
 
 .card-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.4rem;
 }
 
 .player-title {
@@ -110,7 +111,7 @@ const gameStore = useGameStore();
   .name-group {
     h3 {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 800;
       color: #ffffff;
       line-height: 1.1;
@@ -118,7 +119,7 @@ const gameStore = useGameStore();
     }
 
     .full-name {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       color: rgba(255, 255, 255, 0.8);
       display: block;
       white-space: nowrap;
@@ -132,16 +133,16 @@ const gameStore = useGameStore();
 .top-right-counters {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
 
   .counter-item {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.3rem;
 
     .count-value {
       font-family: var(--font-numeric);
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 800;
       color: #ffffff;
       line-height: 1;
@@ -153,24 +154,24 @@ const gameStore = useGameStore();
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
 .metric {
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.6rem;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.5rem;
   display: flex;
   flex-direction: column;
   min-width: 0;
 
   .metric-label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: rgba(255, 255, 255, 0.85);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     font-weight: 700;
     white-space: nowrap;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
@@ -178,11 +179,11 @@ const gameStore = useGameStore();
 
   .metric-value {
     font-family: var(--font-numeric);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 800;
     line-height: 1.1;
     color: #ffffff;
-    margin-top: 0.15rem;
+    margin-top: 0.1rem;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 }
@@ -190,11 +191,11 @@ const gameStore = useGameStore();
 .card-footer-controls {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.4rem;
+  gap: 0.35rem;
   width: 100%;
   border-top: 1px dashed rgba(255, 255, 255, 0.2);
-  padding-top: 0.5rem;
-  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  margin-top: 0.25rem;
 }
 
 .mf-toggle-btn,
@@ -204,24 +205,24 @@ const gameStore = useGameStore();
   justify-content: center;
   width: 100%;
   font-family: var(--font-numeric), var(--font-primary), sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 800;
   text-transform: capitalize;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: #ffffff;
   background: rgba(15, 23, 42, 0.65);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-radius: 0.5rem;
-  padding: 0.35rem 0.25rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 0.45rem;
+  padding: 0.25rem 0.2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
   white-space: nowrap;
 
   @media (max-width: 640px) {
-    font-size: 0.78rem;
-    padding: 0.3rem 0.2rem;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.15rem;
   }
 
   &:hover {
