@@ -571,10 +571,10 @@ function getPlayerPressure(pid: PlayerId) {
       align-items: center;
       gap: 0.25rem;
       font-size: 0.7rem;
-      background: rgba(15, 23, 42, 0.55);
-      padding: 0.15rem 0.35rem;
-      border-radius: 0.3rem;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      padding: 0.1rem 0.15rem;
+      border: none;
+      box-shadow: none;
 
       .stat-val {
         font-family: var(--font-numeric);
@@ -582,6 +582,7 @@ function getPlayerPressure(pid: PlayerId) {
         color: #ffffff;
         font-size: 0.85rem;
         line-height: 1;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
       }
     }
   }
