@@ -280,7 +280,7 @@ function getPlayerPressure(pid: PlayerId) {
               class="inf-rank-item"
             >
               <span class="rank-pos">
-                {{ r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '4th' }}
+                {{ r.rank === 1 ? '1st' : r.rank === 2 ? '2nd' : r.rank === 3 ? '3rd' : '4th' }}
               </span>
               <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
                 {{ PLAYERS[r.playerId].shortName }}
@@ -289,7 +289,7 @@ function getPlayerPressure(pid: PlayerId) {
                 ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
                 <small v-if="r.isTie" class="tie-tag"> [Tied ➔ Rank {{ r.bonusRank }} VP]</small>
               </span>
-              <span class="vp-badge">+{{ r.vpEarned }} VP</span>
+              <span class="vp-badge">+{{ r.vpEarned }}</span>
             </div>
           </template>
           <div v-else class="empty-breakdown">
@@ -962,7 +962,10 @@ function getPlayerPressure(pid: PlayerId) {
     font-size: 0.8rem;
 
     .rank-pos {
+      font-family: var(--font-numeric);
+      font-weight: 800;
       font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .player-name {
@@ -982,8 +985,10 @@ function getPlayerPressure(pid: PlayerId) {
       margin-left: auto;
       font-family: var(--font-numeric);
       font-weight: 800;
-      color: #4ade80;
-      font-size: 0.85rem;
+      color: #ffffff;
+      font-size: 1.15rem;
+      line-height: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     }
   }
 }
