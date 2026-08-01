@@ -550,13 +550,15 @@ function getPlayerPressure(pid: PlayerId) {
     }
 
     .min-vp-badge {
-      font-size: 0.68rem;
+      font-family: var(--font-numeric);
+      font-size: 0.85rem;
       font-weight: 800;
-      color: #4ade80;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 0.05rem 0.3rem;
-      border-radius: 0.25rem;
+      color: #ffffff;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
       line-height: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     }
   }
 
