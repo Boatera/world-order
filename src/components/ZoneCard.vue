@@ -954,8 +954,6 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
 .influence-vp-section {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  background: rgba(34, 197, 94, 0.05);
-  border-color: rgba(34, 197, 94, 0.2);
 
   .influence-vp-list {
     display: grid;
