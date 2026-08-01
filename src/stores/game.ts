@@ -56,6 +56,18 @@ const createInitialZoneScoringMap = (): Record<ZoneId, boolean> => {
   };
 };
 
+const createInitialZoneExpandedMap = (): Record<ZoneId, boolean> => {
+  return {
+    europe: false,
+    central_asia: false,
+    mena: false,
+    africa: false,
+    south_asia: false,
+    east_asia_pacific: false,
+    america: false
+  };
+};
+
 export const useGameStore = defineStore('game', () => {
   // Persisted state in localStorage via VueUse
   const tanks = useStorage<Record<ZoneId, Record<PlayerId, number>>>(
@@ -78,6 +90,11 @@ export const useGameStore = defineStore('game', () => {
     createInitialZoneScoringMap()
   );
 
+  const zoneExpanded = useStorage<Record<ZoneId, boolean>>(
+    'world-order-zone-expanded',
+    createInitialZoneExpandedMap()
+  );
+
   const militaryFocusActive = useStorage<Record<PlayerId, boolean>>(
     'world-order-military-focus',
     { usa: false, eu: false, russia: false, china: false }
@@ -98,7 +115,22 @@ export const useGameStore = defineStore('game', () => {
   };
 
   const isZoneScoringActive = (zoneId: ZoneId): boolean => {
-    return zoneScoringActive.value[zoneId] ?? false;
+    return zoneScoringActive.value?.[zoneId] ?? false;
+  };
+
+  const isZoneExpanded = (zoneId: ZoneId): boolean => {
+    return zoneExpanded.value?.[zoneId] ?? false;
+  };
+
+  const setZoneExpanded = (zoneId: ZoneId, expanded: boolean) => {
+    if (!zoneExpanded.value) {
+      zoneExpanded.value = createInitialZoneExpandedMap();
+    }
+    zoneExpanded.value[zoneId] = expanded;
+  };
+
+  const toggleZoneExpanded = (zoneId: ZoneId) => {
+    setZoneExpanded(zoneId, !isZoneExpanded(zoneId));
   };
 
   const isMilitaryFocusActive = (playerId: PlayerId): boolean => {
@@ -177,6 +209,7 @@ export const useGameStore = defineStore('game', () => {
     influence.value = createInitialInfluenceMap();
     defense.value = createInitialDefenseMap();
     zoneScoringActive.value = createInitialZoneScoringMap();
+    zoneExpanded.value = createInitialZoneExpandedMap();
     militaryFocusActive.value = { usa: false, eu: false, russia: false, china: false };
     nuclearProgramPlayerId.value = null;
     boundlessFriendshipActive.value = false;
@@ -552,6 +585,7 @@ export const useGameStore = defineStore('game', () => {
     influence,
     defense,
     zoneScoringActive,
+    zoneExpanded,
     militaryFocusActive,
     nuclearProgramPlayerId,
     boundlessFriendshipActive,
@@ -564,6 +598,9 @@ export const useGameStore = defineStore('game', () => {
     isZoneScoringActive,
     setZoneScoringActive,
     toggleZoneScoringActive,
+    isZoneExpanded,
+    setZoneExpanded,
+    toggleZoneExpanded,
     isMilitaryFocusActive,
     setMilitaryFocusActive,
     toggleMilitaryFocus,

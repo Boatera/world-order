@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import type { ZoneCalculation, PlayerId } from '@/types/game';
 import { PLAYERS } from '@/data/gameData';
 import { useGameStore } from '@/stores/game';
@@ -16,9 +16,13 @@ const gameStore = useGameStore();
 
 const ALL_PLAYERS: PlayerId[] = ['usa', 'eu', 'russia', 'china'];
 
-const isExpanded = ref(false);
-
 const zone = computed(() => props.calculation.zone);
+
+const isExpanded = computed(() => gameStore.isZoneExpanded(zone.value.id));
+
+function toggleExpanded() {
+  gameStore.toggleZoneExpanded(zone.value.id);
+}
 
 function isInterested(pid: PlayerId): boolean {
   return zone.value.interestedPlayers.includes(pid);
@@ -38,7 +42,7 @@ function getPlayerPressure(pid: PlayerId) {
       background: zone.bgGradient
     }"
   >
-    <div class="zone-header" @click="isExpanded = !isExpanded" style="cursor: pointer;">
+    <div class="zone-header" @click="toggleExpanded" style="cursor: pointer;">
       <div class="zone-title">
         <h3 :style="{ color: zone.color }">{{ zone.name }}</h3>
       </div>
@@ -58,7 +62,7 @@ function getPlayerPressure(pid: PlayerId) {
             type="button"
             class="accordion-toggle-btn"
             :class="{ expanded: isExpanded }"
-            @click="isExpanded = !isExpanded"
+            @click="toggleExpanded"
             :title="isExpanded ? 'Collapse Zone Details' : 'Expand Zone Details'"
           >
             <span class="chevron" :class="{ rotated: isExpanded }">▼</span>
