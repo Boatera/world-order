@@ -83,7 +83,7 @@ function getPlayerPressure(pid: PlayerId) {
         }"
       >
         <div class="min-header">
-          <span class="min-player-name" :style="{ color: PLAYERS[pid].color }">
+          <span class="min-player-name" style="color: #ffffff;">
             {{ PLAYERS[pid].shortName }}
           </span>
           <span v-if="(calculation.playerInfluenceVp[pid] ?? 0) > 0" class="min-vp-badge">
@@ -136,7 +136,7 @@ function getPlayerPressure(pid: PlayerId) {
               borderColor: PLAYERS[pid].borderColor
             }"
           >
-            <div class="col-header-name" :style="{ color: PLAYERS[pid].color }">
+            <div class="col-header-name" style="color: #ffffff;">
               {{ PLAYERS[pid].shortName }}
             </div>
             <div class="col-input-cell">
@@ -193,7 +193,7 @@ function getPlayerPressure(pid: PlayerId) {
             }"
           >
             <div class="player-info-cell">
-              <span class="name" :style="{ color: PLAYERS[pid].color }">{{ PLAYERS[pid].shortName }}</span>
+              <span class="name" style="color: #ffffff;">{{ PLAYERS[pid].shortName }}</span>
             </div>
 
             <!-- Tank Input -->
