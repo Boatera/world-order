@@ -58,9 +58,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'EUR',
     description: 'Highly contested theater between NATO and Russia.',
     interestedPlayers: ['usa', 'eu', 'russia'],
-    color: '#38bdf8',
-    borderColor: '#0284c7',
-    bgGradient: '#0369a1',
+    color: '#2dd4bf',
+    borderColor: '#25909a',
+    bgGradient: '#1e6f77',
     influenceVpTable: [9, 6, 3, 1]
   },
   {
