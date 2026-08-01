@@ -822,18 +822,18 @@ function getPlayerPressure(pid: PlayerId) {
     font-family: var(--font-numeric);
     font-size: 1.15rem;
     font-weight: 700;
-    padding: 0.1rem 0.45rem;
-    border-radius: 0.35rem;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.1rem 0.2rem;
+    background: transparent;
+    border: none;
     color: #ffffff;
-    min-width: 1.8rem;
+    min-width: 1.5rem;
     text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 
     @media (max-width: 640px) {
       font-size: 1rem;
-      padding: 0.05rem 0.3rem;
-      min-width: 1.5rem;
+      padding: 0;
+      min-width: 1.2rem;
     }
   }
 
@@ -855,26 +855,27 @@ function getPlayerPressure(pid: PlayerId) {
 
   .inf-vp-pill {
     font-family: var(--font-numeric);
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    padding: 0.1rem 0.5rem;
-    border-radius: 0.4rem;
-    min-width: 2.2rem;
+    padding: 0.1rem 0.2rem;
+    border-radius: 0;
+    min-width: 1.5rem;
     text-align: center;
     line-height: 1;
     white-space: nowrap;
-    color: var(--c-grey-200);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 
     @media (max-width: 640px) {
-      font-size: 1.1rem;
-      padding: 0.1rem 0.2rem;
-      min-width: 1.5rem;
+      font-size: 1rem;
+      padding: 0;
+      min-width: 1.2rem;
     }
 
     &.safe {
-      color: var(--c-grey-400);
+      color: rgba(255, 255, 255, 0.5);
       border-color: transparent;
     }
   }
@@ -896,25 +897,26 @@ function getPlayerPressure(pid: PlayerId) {
 
     .pressure-pill {
       font-family: var(--font-numeric);
-      font-size: 1.5rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      padding: 0.1rem 0.5rem;
-      border-radius: 0.4rem;
-      min-width: 2.2rem;
+      padding: 0.1rem 0.2rem;
+      border-radius: 0;
+      min-width: 1.5rem;
       text-align: center;
       line-height: 1;
-      color: var(--c-grey-200);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      background: transparent;
+      border: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 
       @media (max-width: 640px) {
-        font-size: 1.1rem;
-        padding: 0.1rem 0.2rem;
-        min-width: 1.5rem;
+        font-size: 1rem;
+        padding: 0;
+        min-width: 1.2rem;
       }
 
       &.safe {
-        color: var(--c-grey-400);
+        color: rgba(255, 255, 255, 0.5);
         border-color: transparent;
       }
     }
