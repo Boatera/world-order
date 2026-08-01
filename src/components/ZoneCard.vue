@@ -97,7 +97,7 @@ function getPlayerPressure(pid: PlayerId) {
             <span class="stat-val">{{ getPlayerPressure(pid).threat }}</span>
           </div>
 
-          <div class="stat-pill def-pill" title="Total Defense (Defense + Military Focus)">
+          <div v-if="isInterested(pid)" class="stat-pill def-pill" title="Total Defense (Defense + Military Focus)">
             <DefenseIcon :size="13" />
             <span class="stat-val">{{ getPlayerPressure(pid).defense }}</span>
           </div>
