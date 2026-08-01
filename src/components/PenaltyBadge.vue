@@ -45,7 +45,7 @@ const computedSize = computed(() => {
   justify-content: center;
   position: absolute;
   top: -4px;
-  right: -12px;
+  left: calc(100% + 2px);
   filter: drop-shadow(0 0 1.5px rgba(255, 17, 0, 0.7));
   pointer-events: none;
 }
