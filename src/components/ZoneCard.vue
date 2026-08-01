@@ -37,21 +37,7 @@ function getPlayerPressure(pid: PlayerId) {
   >
     <div class="zone-header" @click="isExpanded = !isExpanded" style="cursor: pointer;">
       <div class="zone-title">
-        <div>
-          <div class="title-row">
-            <h3 :style="{ color: zone.color }">{{ zone.name }}</h3>
-            <span
-              class="zone-code"
-              :style="{
-                color: zone.color,
-                borderColor: zone.borderColor,
-                background: 'rgba(0, 0, 0, 0.3)'
-              }"
-            >
-              {{ zone.code }}
-            </span>
-          </div>
-        </div>
+        <h3 :style="{ color: zone.color }">{{ zone.name }}</h3>
       </div>
       <div class="header-right-tags" @click.stop>
         <div class="vp-rewards-row">
@@ -72,7 +58,6 @@ function getPlayerPressure(pid: PlayerId) {
             @click="isExpanded = !isExpanded"
             :title="isExpanded ? 'Collapse Zone Details' : 'Expand Zone Details'"
           >
-            <span class="btn-text">{{ isExpanded ? 'Hide' : 'Show' }}</span>
             <span class="chevron" :class="{ rotated: isExpanded }">▼</span>
           </button>
         </div>
@@ -381,64 +366,36 @@ function getPlayerPressure(pid: PlayerId) {
 .zone-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 0.75rem;
-
-  @media (max-width: 640px) {
-    flex-direction: column;
-  }
+  padding-bottom: 0.5rem;
+  width: 100%;
 }
 
 .zone-title {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
 
-  .zone-icon {
-    font-size: 1.8rem;
-    line-height: 1;
-  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 0;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    line-height: 1.25;
+    word-break: break-word;
 
-  .title-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    h3 {
-      font-size: 1.25rem;
-      margin: 0;
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    @media (max-width: 640px) {
+      font-size: 0.95rem;
     }
-
-    .zone-code {
-      font-size: 0.7rem;
-      padding: 0.15rem 0.45rem;
-      border-radius: 0.25rem;
-      font-family: monospace;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(15, 23, 42, 0.5);
-      color: #ffffff;
-      font-weight: 700;
-    }
-  }
-
-  .zone-desc {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-top: 0.15rem;
   }
 }
 
 .header-right-tags {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 0.35rem;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .interested-tags {
@@ -518,35 +475,28 @@ function getPlayerPressure(pid: PlayerId) {
 .accordion-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-numeric), var(--font-primary), sans-serif;
-  font-size: 0.95rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  justify-content: center;
+  padding: 0.4rem 0.55rem;
   color: #ffffff;
   background: rgba(15, 23, 42, 0.65);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   border-radius: 0.5rem;
-  padding: 0.4rem 0.75rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
 
   @media (max-width: 640px) {
-    font-size: 0.88rem;
-    padding: 0.3rem 0.55rem;
+    padding: 0.3rem 0.45rem;
   }
 
   &:hover {
     border-color: rgba(255, 255, 255, 0.7);
     background: rgba(15, 23, 42, 0.85);
-    color: #ffffff;
   }
 
   .chevron {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     transition: transform 0.2s ease;
 
     &.rotated {
