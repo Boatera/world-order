@@ -289,16 +289,18 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
               :key="'inf-rank-' + r.playerId"
               class="inf-rank-item"
             >
-              <span class="rank-pos">
-                {{ (r.isTie ? r.bonusRank : r.rank) === 1 ? '1st' : (r.isTie ? r.bonusRank : r.rank) === 2 ? '2nd' : (r.isTie ? r.bonusRank : r.rank) === 3 ? '3rd' : '4th' }}
-              </span>
-              <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
-                {{ PLAYERS[r.playerId].shortName }}
-              </span>
-              <span class="details">
-                ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
-                <small v-if="r.isTie" class="tie-tag"> [Tied]</small>
-              </span>
+              <div class="left-info">
+                <span class="rank-pos">
+                  {{ (r.isTie ? r.bonusRank : r.rank) === 1 ? '1st' : (r.isTie ? r.bonusRank : r.rank) === 2 ? '2nd' : (r.isTie ? r.bonusRank : r.rank) === 3 ? '3rd' : '4th' }}
+                </span>
+                <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
+                  {{ PLAYERS[r.playerId].shortName }}
+                </span>
+                <span class="details">
+                  ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
+                  <small v-if="r.isTie" class="tie-tag"> [Tied]</small>
+                </span>
+              </div>
               <span class="vp-badge">+{{ r.vpEarned }}</span>
             </div>
           </template>
@@ -956,26 +958,34 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
   margin-bottom: 0.5rem;
 
   .influence-vp-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
   .inf-rank-item {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    background: rgba(15, 23, 42, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.35rem;
-    font-size: 0.8rem;
+    justify-content: space-between;
+    gap: 0.4rem;
+    background: transparent;
+    border: none;
+    padding: 0.15rem 0.2rem;
+    font-size: 0.85rem;
+
+    .left-info {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
 
     .rank-pos {
       font-family: var(--font-numeric);
       font-weight: 800;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      min-width: 1.8rem;
     }
 
     .player-name {
@@ -983,7 +993,7 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
     }
 
     .details {
-      font-size: 0.7rem;
+      font-size: 0.78rem;
       color: var(--c-grey-400);
 
       .tie-tag {
