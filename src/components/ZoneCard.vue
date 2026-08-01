@@ -7,6 +7,7 @@ import NumberInput from './NumberInput.vue';
 import TankIcon from './TankIcon.vue';
 import InfluenceIcon from './InfluenceIcon.vue';
 import DefenseIcon from './DefenseIcon.vue';
+import ThreatIcon from './ThreatIcon.vue';
 
 const props = defineProps<{
   calculation: ZoneCalculation;
@@ -91,17 +92,26 @@ function getPlayerPressure(pid: PlayerId) {
           </span>
         </div>
         <div class="min-stats-row">
-          <div class="stat-pill inf-pill" title="Influence">
+          <!-- 1. Influence -->
+          <div class="stat-pill inf-pill" title="Influence in this zone">
             <InfluenceIcon :color="PLAYERS[pid].color" :size="13" />
             <span class="stat-val">{{ gameStore.getInfluenceCount(zone.id, pid) }}</span>
           </div>
 
-          <div class="stat-pill thr-pill" title="Total Threat (Tanks + Military Focus)">
+          <!-- 2. Tank -->
+          <div class="stat-pill tank-pill" title="Tanks in this zone">
             <TankIcon :player-id="pid" :color="PLAYERS[pid].color" :width="16" :height="10" />
+            <span class="stat-val">{{ gameStore.getTankCount(zone.id, pid) }}</span>
+          </div>
+
+          <!-- 3. Threat -->
+          <div class="stat-pill thr-pill" title="Total Threat (Tanks + Military Focus / Nuclear)">
+            <ThreatIcon :size="13" />
             <span class="stat-val">{{ getPlayerPressure(pid).threat }}</span>
           </div>
 
-          <div v-if="isInterested(pid)" class="stat-pill def-pill" title="Total Defense (Defense + Military Focus)">
+          <!-- 4. Defense -->
+          <div v-if="isInterested(pid)" class="stat-pill def-pill" title="Total Defense (Defense + Military Focus / Nuclear)">
             <DefenseIcon :size="13" />
             <span class="stat-val">{{ getPlayerPressure(pid).defense }}</span>
           </div>
