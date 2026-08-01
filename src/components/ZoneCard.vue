@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { ZoneCalculation, PlayerId } from '@/types/game';
 import { PLAYERS } from '@/data/gameData';
 import { useGameStore } from '@/stores/game';
@@ -12,6 +12,8 @@ const props = defineProps<{
 const gameStore = useGameStore();
 
 const ALL_PLAYERS: PlayerId[] = ['usa', 'eu', 'russia', 'china'];
+
+const isExpanded = ref(false);
 
 const zone = computed(() => props.calculation.zone);
 
@@ -27,12 +29,13 @@ function getPlayerPressure(pid: PlayerId) {
 <template>
   <div
     class="card zone-card"
+    :class="{ collapsed: !isExpanded }"
     :style="{
       borderColor: zone.borderColor,
       background: zone.bgGradient
     }"
   >
-    <div class="zone-header">
+    <div class="zone-header" @click="isExpanded = !isExpanded" style="cursor: pointer;">
       <div class="zone-title">
         <div>
           <div class="title-row">
@@ -50,7 +53,7 @@ function getPlayerPressure(pid: PlayerId) {
           </div>
         </div>
       </div>
-      <div class="header-right-tags">
+      <div class="header-right-tags" @click.stop>
         <div class="vp-rewards-row">
           <button
             type="button"
@@ -61,251 +64,271 @@ function getPlayerPressure(pid: PlayerId) {
           >
             {{ zone.influenceVpTable.join(' / ') }}
           </button>
+
+          <button
+            type="button"
+            class="accordion-toggle-btn"
+            :class="{ expanded: isExpanded }"
+            @click="isExpanded = !isExpanded"
+            :title="isExpanded ? 'Collapse Zone Details' : 'Expand Zone Details'"
+          >
+            <span class="btn-text">{{ isExpanded ? 'Hide' : 'Show' }}</span>
+            <span class="chevron" :class="{ rotated: isExpanded }">▼</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Influence Table -->
-    <div class="influence-table-section">
-      <div class="table-title">Influence</div>
-      <div class="influence-columns-grid">
-        <!-- USA, EU, Russia, China -->
-        <div
-          v-for="pid in ALL_PLAYERS"
-          :key="'inf-col-' + pid"
-          class="influence-col-item"
-          :style="{
-            background: PLAYERS[pid].bgGradient,
-            borderColor: PLAYERS[pid].borderColor
-          }"
-        >
-          <div class="col-header-name" :style="{ color: PLAYERS[pid].color }">
+    <!-- Minimalist Summary Grid (Visible when Collapsed) -->
+    <div v-if="!isExpanded" class="minimalist-summary-grid">
+      <div
+        v-for="pid in ALL_PLAYERS"
+        :key="'min-sum-' + pid"
+        class="min-summary-card"
+        :style="{
+          background: PLAYERS[pid].bgGradient,
+          borderColor: PLAYERS[pid].borderColor
+        }"
+      >
+        <div class="min-header">
+          <span class="min-player-name" :style="{ color: PLAYERS[pid].color }">
             {{ PLAYERS[pid].shortName }}
-          </div>
-          <div class="col-input-cell">
-            <NumberInput
-              :model-value="gameStore.getInfluenceCount(zone.id, pid)"
-              @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, pid, val)"
-              :color="PLAYERS[pid].color"
-            />
-          </div>
-          <div class="col-result-cell">
-            <span
-              class="inf-vp-pill"
-              :class="{
-                'has-vp': (calculation.playerInfluenceVp[pid] ?? 0) > 0,
-                'safe': (calculation.playerInfluenceVp[pid] ?? 0) === 0
-              }"
-            >
-              {{ (calculation.playerInfluenceVp[pid] ?? 0) > 0 ? '+' + calculation.playerInfluenceVp[pid] : '0' }}
-            </span>
-          </div>
+          </span>
+          <span v-if="(calculation.playerInfluenceVp[pid] ?? 0) > 0" class="min-vp-badge">
+            +{{ calculation.playerInfluenceVp[pid] }} VP
+          </span>
         </div>
-
-        <!-- Neutral -->
-        <div class="influence-col-item black-influence-col">
-          <div class="col-header-name neutral-name">Neutral</div>
-          <div class="col-input-cell">
-            <NumberInput
-              :model-value="gameStore.getInfluenceCount(zone.id, 'black')"
-              @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, 'black', val)"
-              color="#ffffff"
-            />
+        <div class="min-stats-row">
+          <div class="stat-pill inf-pill" title="Influence">
+            <span class="stat-label">INF:</span>
+            <span class="stat-val">{{ gameStore.getInfluenceCount(zone.id, pid) }}</span>
           </div>
-          <div class="col-result-cell">
-            <span class="no-zoi-dash">—</span>
+
+          <div class="stat-pill thr-pill" title="Total Threat">
+            <span class="stat-label">THR:</span>
+            <span class="stat-val">{{ getPlayerPressure(pid).threat }}</span>
+          </div>
+
+          <div class="stat-pill def-pill" title="Total Defense">
+            <span class="stat-label">DEF:</span>
+            <span class="stat-val">{{ getPlayerPressure(pid).defense }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Threat Table -->
-    <div class="threat-table-section">
-      <div class="table-title">Threat</div>
-      <div class="threat-grid-container">
-        <!-- Header Row -->
-        <div class="threat-header-row">
-          <span class="col-title">Faction</span>
-          <span class="col-title center">Tank</span>
-          <span class="col-title center">Defense</span>
-          <span class="col-title center desktop-only">Threat Total</span>
-          <span class="col-title center mobile-only">Thr</span>
-          <span class="col-title center desktop-only">Defense Total</span>
-          <span class="col-title center mobile-only">Def</span>
-          <span class="col-title center desktop-only">Penalty</span>
-          <span class="col-title center mobile-only">Pen</span>
-        </div>
-
-        <!-- Player Rows -->
-        <div
-          v-for="pid in ALL_PLAYERS"
-          :key="'threat-row-' + pid"
-          class="threat-player-row"
-          :class="{
-            'has-interest': isInterested(pid),
-            'no-interest': !isInterested(pid)
-          }"
-          :style="{
-            background: PLAYERS[pid].bgGradient,
-            borderColor: PLAYERS[pid].borderColor
-          }"
-        >
-          <div class="player-info-cell">
-            <span class="name" :style="{ color: PLAYERS[pid].color }">{{ PLAYERS[pid].shortName }}</span>
-          </div>
-
-          <!-- Tank Input -->
-          <div class="controls-cell tank-cell">
-            <NumberInput
-              :model-value="gameStore.getTankCount(zone.id, pid)"
-              @update:model-value="(val) => gameStore.setTankCount(zone.id, pid, val)"
-              :color="PLAYERS[pid].color"
-            />
-          </div>
-
-          <!-- Defense Input -->
-          <div class="controls-cell defense-cell">
-            <template v-if="isInterested(pid)">
+    <!-- Detailed Controls & Formulas (Visible when Expanded) -->
+    <div v-if="isExpanded" class="zone-details-container">
+      <!-- Influence Table -->
+      <div class="influence-table-section">
+        <div class="table-title">Influence</div>
+        <div class="influence-columns-grid">
+          <!-- USA, EU, Russia, China -->
+          <div
+            v-for="pid in ALL_PLAYERS"
+            :key="'inf-col-' + pid"
+            class="influence-col-item"
+            :style="{
+              background: PLAYERS[pid].bgGradient,
+              borderColor: PLAYERS[pid].borderColor
+            }"
+          >
+            <div class="col-header-name" :style="{ color: PLAYERS[pid].color }">
+              {{ PLAYERS[pid].shortName }}
+            </div>
+            <div class="col-input-cell">
               <NumberInput
+                :model-value="gameStore.getInfluenceCount(zone.id, pid)"
+                @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, pid, val)"
+                :color="PLAYERS[pid].color"
+              />
+            </div>
+            <div class="col-result-cell">
+              <span
+                class="inf-vp-pill"
+                :class="{
+                  'has-vp': (calculation.playerInfluenceVp[pid] ?? 0) > 0,
+                  'safe': (calculation.playerInfluenceVp[pid] ?? 0) === 0
+                }"
+              >
+                {{ (calculation.playerInfluenceVp[pid] ?? 0) > 0 ? '+' + calculation.playerInfluenceVp[pid] : '0' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Neutral Column -->
+          <div class="influence-col-item neutral-col-item">
+            <div class="col-header-name neutral-title">Neutral</div>
+            <div class="col-input-cell">
+              <NumberInput
+                :model-value="gameStore.getInfluenceCount(zone.id, 'black')"
+                @update:model-value="(val) => gameStore.setInfluenceCount(zone.id, 'black', val)"
+                color="#94a3b8"
+              />
+            </div>
+            <div class="col-result-cell">
+              <span class="inf-vp-pill neutral-pill">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Threat & Defense Table -->
+      <div class="threat-table-section">
+        <div class="table-title">Threat & Defense</div>
+        <div class="threat-grid">
+          <!-- Header Row -->
+          <div class="threat-grid-header">
+            <div class="cell-h">Faction</div>
+            <div class="cell-h">Tank</div>
+            <div class="cell-h">Defense</div>
+            <div class="cell-h" title="Total Threat (Tanks + Military Focus)">THR</div>
+            <div class="cell-h" title="Total Defense (Tanks + Defense Input + Military Focus)">DEF</div>
+            <div class="cell-h" title="Threat Phase Penalty">PEN</div>
+          </div>
+
+          <!-- Player Rows -->
+          <div
+            v-for="pid in ALL_PLAYERS"
+            :key="'threat-row-' + pid"
+            class="threat-grid-row"
+            :class="{
+              'is-zoi': isInterested(pid),
+              'not-zoi': !isInterested(pid)
+            }"
+            :style="{
+              background: PLAYERS[pid].bgGradient,
+              borderColor: PLAYERS[pid].borderColor
+            }"
+          >
+            <div class="cell faction-cell" :style="{ color: PLAYERS[pid].color }">
+              <strong>{{ PLAYERS[pid].shortName }}</strong>
+            </div>
+
+            <div class="cell input-cell">
+              <NumberInput
+                :model-value="gameStore.getTankCount(zone.id, pid)"
+                @update:model-value="(val) => gameStore.setTankCount(zone.id, pid, val)"
+                :color="PLAYERS[pid].color"
+              />
+            </div>
+
+            <div class="cell input-cell">
+              <NumberInput
+                v-if="isInterested(pid)"
                 :model-value="gameStore.getDefenseCount(zone.id, pid)"
-                :min="0"
                 @update:model-value="(val) => gameStore.setDefenseCount(zone.id, pid, val)"
                 :color="PLAYERS[pid].color"
               />
-            </template>
-            <template v-else>
-              <span class="no-zoi-dash">—</span>
-            </template>
-          </div>
-
-          <!-- Threat Total -->
-          <div class="badge-cell threat-total-cell">
-            <span class="calc-badge">
-              {{ getPlayerPressure(pid).threat }}
-            </span>
-          </div>
-
-          <!-- Defense Total -->
-          <div class="badge-cell defense-total-cell">
-            <template v-if="isInterested(pid)">
-              <span class="calc-badge">
-                {{ getPlayerPressure(pid).defense }}
-              </span>
-            </template>
-            <template v-else>
-              <span class="no-zoi-dash">—</span>
-            </template>
-          </div>
-
-          <!-- Penalty -->
-          <div class="pressure-cell penalty-cell">
-            <template v-if="isInterested(pid)">
-              <span
-                class="pressure-pill"
-                :class="{
-                  penalized: getPlayerPressure(pid).totalVpPenalty < 0,
-                  safe: getPlayerPressure(pid).totalVpPenalty === 0
-                }"
-              >
-                {{ getPlayerPressure(pid).totalVpPenalty }}
-              </span>
-            </template>
-            <template v-else>
-              <span class="no-zoi-dash">—</span>
-            </template>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Influence VP Standings -->
-    <div v-if="gameStore.showFormulas" class="formula-breakdown-section influence-vp-section">
-      <div class="formula-header">
-        <span class="icon">🏆</span>
-        <span>Influence VP Standings (VP Table: {{ zone.influenceVpTable.join(', ') }})</span>
-      </div>
-
-      <div class="influence-vp-list">
-        <template v-if="calculation.influenceRanks.some(item => item.influence >= 1)">
-          <div
-            v-for="r in calculation.influenceRanks.filter(item => item.influence >= 1)"
-            :key="'inf-rank-' + r.playerId"
-            class="inf-rank-item"
-          >
-            <span class="rank-pos">
-              {{ r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '4th' }}
-            </span>
-            <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
-              {{ PLAYERS[r.playerId].shortName }}
-            </span>
-            <span class="details">
-              ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
-              <small v-if="r.isTie" class="tie-tag"> [Tied ➔ Rank {{ r.bonusRank }} VP]</small>
-            </span>
-            <span class="vp-badge">+{{ r.vpEarned }} VP</span>
-          </div>
-        </template>
-        <div v-else class="empty-breakdown">
-          No influence deployed in this zone (Minimum 1 Influence required for VP bonus).
-        </div>
-      </div>
-    </div>
-
-    <!-- Detailed Formula Breakdown -->
-    <div v-if="gameStore.showFormulas" class="formula-breakdown-section">
-      <div class="formula-header">
-        <span class="icon">📐</span>
-        <span>Tank Pressure Breakdown</span>
-      </div>
-
-      <div class="breakdown-list">
-        <template v-for="pid in zone.interestedPlayers" :key="'bd-' + pid">
-          <div
-            v-if="getPlayerPressure(pid).breakdown.length > 0"
-            class="player-breakdown-item"
-          >
-            <div class="target-player" :style="{ color: PLAYERS[pid].color }">
-              <strong>{{ PLAYERS[pid].shortName }}</strong> (Threat: {{ getPlayerPressure(pid).threat }}, Defense: {{ getPlayerPressure(pid).defense }}):
+              <span v-else class="not-zoi-dash">—</span>
             </div>
-            <div class="opponent-formulas">
-              <div
-                v-for="bd in getPlayerPressure(pid).breakdown"
-                :key="bd.opponentId"
-                class="opp-formula"
-                :class="{
-                  nato: bd.isNatoExempt,
-                  pressured: bd.pressure < 0
-                }"
-              >
-                <span class="opp-name">
-                  vs {{ PLAYERS[bd.opponentId].shortName }} (Threat: {{ bd.opponentThreat }})
-                </span>
-                <span v-if="bd.isNatoExempt" class="formula-result nato-text">
-                  🛡️ NATO Exempt (0)
-                </span>
-                <span v-else-if="bd.isBoundlessExempt" class="formula-result boundless-text">
-                  🤝 Boundless Exempt (0)
-                </span>
-                <span v-else-if="bd.pressure < 0" class="formula-result warn-text">
-                  Threat {{ bd.opponentThreat }} > Def {{ bd.playerDefense }} ➔ VP: <strong>{{ bd.vpPenalty }}</strong>
-                  <small v-if="bd.isNewStartTreaty" class="treaty-tag"> (📜 START x1)</small>
-                </span>
-                <span v-else class="formula-result safe-text">
-                  Defended (Threat {{ bd.opponentThreat }} ≤ Def {{ bd.playerDefense }}) (0)
-                </span>
+
+            <div class="cell stat-cell threat-val">
+              <span>{{ getPlayerPressure(pid).threat }}</span>
+            </div>
+
+            <div class="cell stat-cell def-val">
+              <span v-if="isInterested(pid)">{{ getPlayerPressure(pid).defense }}</span>
+              <span v-else class="not-zoi-dash">—</span>
+            </div>
+
+            <div class="cell stat-cell pen-val" :class="{ penalized: getPlayerPressure(pid).totalVpPenalty < 0 }">
+              <span v-if="isInterested(pid)">{{ getPlayerPressure(pid).totalVpPenalty }}</span>
+              <span v-else class="not-zoi-dash">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Influence VP Standings -->
+      <div v-if="gameStore.showFormulas" class="formula-breakdown-section influence-vp-section">
+        <div class="formula-header">
+          <span class="icon">🏆</span>
+          <span>Influence VP Standings (VP Table: {{ zone.influenceVpTable.join(', ') }})</span>
+        </div>
+
+        <div class="influence-vp-list">
+          <template v-if="calculation.influenceRanks.some(item => item.influence >= 1)">
+            <div
+              v-for="r in calculation.influenceRanks.filter(item => item.influence >= 1)"
+              :key="'inf-rank-' + r.playerId"
+              class="inf-rank-item"
+            >
+              <span class="rank-pos">
+                {{ r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '4th' }}
+              </span>
+              <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
+                {{ PLAYERS[r.playerId].shortName }}
+              </span>
+              <span class="details">
+                ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
+                <small v-if="r.isTie" class="tie-tag"> [Tied ➔ Rank {{ r.bonusRank }} VP]</small>
+              </span>
+              <span class="vp-badge">+{{ r.vpEarned }} VP</span>
+            </div>
+          </template>
+          <div v-else class="empty-breakdown">
+            No influence deployed in this zone (Minimum 1 Influence required for VP bonus).
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Formula Breakdown -->
+      <div v-if="gameStore.showFormulas" class="formula-breakdown-section">
+        <div class="formula-header">
+          <span class="icon">📐</span>
+          <span>Tank Pressure Breakdown</span>
+        </div>
+
+        <div class="breakdown-list">
+          <template v-for="pid in zone.interestedPlayers" :key="'bd-' + pid">
+            <div
+              v-if="getPlayerPressure(pid).breakdown.length > 0"
+              class="player-breakdown-item"
+            >
+              <div class="target-player" :style="{ color: PLAYERS[pid].color }">
+                <strong>{{ PLAYERS[pid].shortName }}</strong> (Threat: {{ getPlayerPressure(pid).threat }}, Defense: {{ getPlayerPressure(pid).defense }}):
+              </div>
+              <div class="opponent-formulas">
+                <div
+                  v-for="bd in getPlayerPressure(pid).breakdown"
+                  :key="bd.opponentId"
+                  class="opp-formula"
+                  :class="{
+                    nato: bd.isNatoExempt,
+                    pressured: bd.pressure < 0
+                  }"
+                >
+                  <span class="opp-name">
+                    vs {{ PLAYERS[bd.opponentId].shortName }} (Threat: {{ bd.opponentThreat }})
+                  </span>
+                  <span v-if="bd.isNatoExempt" class="formula-result nato-text">
+                    🛡️ NATO Exempt (0)
+                  </span>
+                  <span v-else-if="bd.isBoundlessExempt" class="formula-result boundless-text">
+                    🤝 Boundless Exempt (0)
+                  </span>
+                  <span v-else-if="bd.pressure < 0" class="formula-result warn-text">
+                    Threat {{ bd.opponentThreat }} > Def {{ bd.playerDefense }} ➔ VP: <strong>{{ bd.vpPenalty }}</strong>
+                    <small v-if="bd.isNewStartTreaty" class="treaty-tag"> (📜 START x1)</small>
+                  </span>
+                  <span v-else class="formula-result safe-text">
+                    Defended (Threat {{ bd.opponentThreat }} ≤ Def {{ bd.playerDefense }}) (0)
+                  </span>
+                </div>
               </div>
             </div>
+          </template>
+          <div
+            v-if="
+              zone.interestedPlayers.every(
+                (p) => getPlayerPressure(p).breakdown.length === 0
+              )
+            "
+            class="empty-breakdown"
+          >
+            No rival tanks deployed in this zone.
           </div>
-        </template>
-        <div
-          v-if="
-            zone.interestedPlayers.every(
-              (p) => getPlayerPressure(p).breakdown.length === 0
-            )
-          "
-          class="empty-breakdown"
-        >
-          No rival tanks deployed in this zone.
         </div>
       </div>
     </div>
@@ -453,6 +476,122 @@ function getPlayerPressure(pid: PlayerId) {
       opacity: 0.45;
       text-decoration: line-through;
       text-decoration-thickness: 2px;
+    }
+  }
+}
+
+.accordion-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-numeric), var(--font-primary), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+
+  @media (max-width: 640px) {
+    font-size: 0.88rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+  }
+
+  .chevron {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.minimalist-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+}
+
+.min-summary-card {
+  border: 1px solid;
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+  .min-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .min-player-name {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    }
+
+    .min-vp-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #4ade80;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.25rem;
+      line-height: 1;
+    }
+  }
+
+  .min-stats-row {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.15rem;
+      font-size: 0.65rem;
+      background: rgba(15, 23, 42, 0.55);
+      padding: 0.1rem 0.3rem;
+      border-radius: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+
+      .stat-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 700;
+      }
+
+      .stat-val {
+        font-family: var(--font-numeric);
+        font-weight: 800;
+        color: #ffffff;
+      }
     }
   }
 }
