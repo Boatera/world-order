@@ -892,7 +892,7 @@ function getPlayerPressure(pid: PlayerId) {
 
   .pressure-cell {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 
     .pressure-pill {
