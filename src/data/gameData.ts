@@ -69,9 +69,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'MENA',
     description: 'Critical energy and maritime zone contested by USA, EU, and Russia.',
     interestedPlayers: ['usa', 'eu', 'russia'],
-    color: '#a3e635',
-    borderColor: '#65a30d',
-    bgGradient: '#4d7c0f',
+    color: '#bef264',
+    borderColor: '#71781b',
+    bgGradient: '#8c9327',
     influenceVpTable: [10, 7, 4, 2]
   },
   {
@@ -80,9 +80,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'AFR',
     description: 'Exclusive Zone of Interest for European Union economic ties.',
     interestedPlayers: ['eu'],
-    color: '#f59e0b',
-    borderColor: '#b45309',
-    bgGradient: '#92400e',
+    color: '#fcd34d',
+    borderColor: '#a16f3d',
+    bgGradient: '#ca945d',
     influenceVpTable: [7, 4, 2, 0]
   },
   {
@@ -91,9 +91,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'CAS',
     description: 'Shared strategic sphere of influence between Russia and China.',
     interestedPlayers: ['russia', 'china'],
-    color: '#fbbf24',
-    borderColor: '#d97706',
-    bgGradient: '#b45309',
+    color: '#fef08a',
+    borderColor: '#a35c00',
+    bgGradient: '#d98000',
     influenceVpTable: [8, 4, 2, 0]
   },
   {
@@ -102,9 +102,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'SAS',
     description: 'Exclusive Zone of Interest for China regional projection.',
     interestedPlayers: ['china'],
-    color: '#c084fc',
-    borderColor: '#9333ea',
-    bgGradient: '#7e22ce',
+    color: '#f0abfc',
+    borderColor: '#6b145d',
+    bgGradient: '#932281',
     influenceVpTable: [8, 5, 2, 0]
   },
   {
@@ -115,7 +115,7 @@ export const ZONES: ZoneConfig[] = [
     interestedPlayers: ['usa', 'china'],
     color: '#7dd3fc',
     borderColor: '#0284c7',
-    bgGradient: '#075985',
+    bgGradient: '#00a2e2',
     influenceVpTable: [9, 6, 2, 0]
   },
   {
@@ -124,9 +124,9 @@ export const ZONES: ZoneConfig[] = [
     code: 'AME',
     description: 'Homeland Zone of Interest for United States hemisphere control.',
     interestedPlayers: ['usa'],
-    color: '#fb923c',
-    borderColor: '#ea580c',
-    bgGradient: '#c2410c',
+    color: '#fdba74',
+    borderColor: '#9a3a19',
+    bgGradient: '#c4552b',
     influenceVpTable: [7, 4, 2, 0]
   }
 ];

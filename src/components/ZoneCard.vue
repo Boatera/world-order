@@ -44,7 +44,7 @@ function getPlayerPressure(pid: PlayerId) {
   >
     <div class="zone-header" @click="toggleExpanded" style="cursor: pointer;">
       <div class="zone-title">
-        <h3 :style="{ color: zone.color }">{{ zone.name }}</h3>
+        <h3>{{ zone.name }}</h3>
       </div>
       <div class="header-right-tags" @click.stop>
         <div class="vp-rewards-row">
