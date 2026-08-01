@@ -287,7 +287,7 @@ function getPlayerPressure(pid: PlayerId) {
               </span>
               <span class="details">
                 ({{ r.influence }} Inf, {{ r.tanks }} Tank{{ r.tanks === 1 ? '' : 's' }})
-                <small v-if="r.isTie" class="tie-tag"> [Tied ➔ Rank {{ r.bonusRank }} VP]</small>
+                <small v-if="r.isTie" class="tie-tag"> [Tied]</small>
               </span>
               <span class="vp-badge">+{{ r.vpEarned }}</span>
             </div>
