@@ -821,13 +821,16 @@ function getPlayerPressure(pid: PlayerId) {
   .calc-badge {
     font-family: var(--font-numeric);
     font-size: 1.15rem;
-    font-weight: 700;
+    font-weight: 800;
+    line-height: 1;
     padding: 0.1rem 0.2rem;
     background: transparent;
     border: none;
     color: #ffffff;
     min-width: 1.5rem;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 
     @media (max-width: 640px) {
@@ -856,11 +859,13 @@ function getPlayerPressure(pid: PlayerId) {
   .inf-vp-pill {
     font-family: var(--font-numeric);
     font-size: 1.15rem;
-    font-weight: 700;
+    font-weight: 800;
     padding: 0.1rem 0.2rem;
     border-radius: 0;
     min-width: 1.5rem;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
     white-space: nowrap;
     color: #ffffff;
@@ -881,12 +886,18 @@ function getPlayerPressure(pid: PlayerId) {
   }
 
   .no-zoi-dash {
-    color: var(--c-grey-600);
-    font-size: 1.2rem;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
 
     @media (max-width: 640px) {
       font-size: 1rem;
+      min-width: 1.2rem;
     }
   }
 
@@ -898,11 +909,13 @@ function getPlayerPressure(pid: PlayerId) {
     .pressure-pill {
       font-family: var(--font-numeric);
       font-size: 1.15rem;
-      font-weight: 700;
+      font-weight: 800;
       padding: 0.1rem 0.2rem;
       border-radius: 0;
       min-width: 1.5rem;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
       color: #ffffff;
       background: transparent;
@@ -922,7 +935,7 @@ function getPlayerPressure(pid: PlayerId) {
     }
 
     .no-zoi-dash {
-      margin-right: 0.5rem;
+      margin-right: 0;
     }
   }
 }
