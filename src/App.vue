@@ -17,6 +17,29 @@ const gameStore = useGameStore();
           :key="pid"
           :summary="gameStore.playerSummaries[pid]"
         />
+
+        <!-- Global Accordion Control Buttons -->
+        <div class="global-accordion-controls">
+          <button
+            type="button"
+            class="accordion-global-btn expand-all-btn"
+            @click="gameStore.expandAllZones()"
+            title="Expand all 7 zone card details"
+          >
+            <span class="chevron-icon">▼</span>
+            <span>Expand All</span>
+          </button>
+
+          <button
+            type="button"
+            class="accordion-global-btn collapse-all-btn"
+            @click="gameStore.collapseAllZones()"
+            title="Collapse all 7 zone card details"
+          >
+            <span class="chevron-icon">▲</span>
+            <span>Collapse All</span>
+          </button>
+        </div>
       </aside>
 
       <!-- Right Main Content: 7 Geopolitical Zones Grid -->
@@ -72,6 +95,48 @@ const gameStore = useGameStore();
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+}
+
+.global-accordion-controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+  width: 100%;
+}
+
+.accordion-global-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  .chevron-icon {
+    font-size: 0.65rem;
+    color: var(--c-accent-blue);
+  }
+
+  &:hover {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 }
 

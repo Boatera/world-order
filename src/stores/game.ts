@@ -133,6 +133,24 @@ export const useGameStore = defineStore('game', () => {
     setZoneExpanded(zoneId, !isZoneExpanded(zoneId));
   };
 
+  const expandAllZones = () => {
+    if (!zoneExpanded.value) {
+      zoneExpanded.value = createInitialZoneExpandedMap();
+    }
+    for (const zone of ZONES) {
+      zoneExpanded.value[zone.id] = true;
+    }
+  };
+
+  const collapseAllZones = () => {
+    if (!zoneExpanded.value) {
+      zoneExpanded.value = createInitialZoneExpandedMap();
+    }
+    for (const zone of ZONES) {
+      zoneExpanded.value[zone.id] = false;
+    }
+  };
+
   const isMilitaryFocusActive = (playerId: PlayerId): boolean => {
     return militaryFocusActive.value?.[playerId] ?? false;
   };
@@ -601,6 +619,8 @@ export const useGameStore = defineStore('game', () => {
     isZoneExpanded,
     setZoneExpanded,
     toggleZoneExpanded,
+    expandAllZones,
+    collapseAllZones,
     isMilitaryFocusActive,
     setMilitaryFocusActive,
     toggleMilitaryFocus,
