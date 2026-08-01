@@ -33,6 +33,13 @@ function isInterested(pid: PlayerId): boolean {
 function getPlayerPressure(pid: PlayerId) {
   return props.calculation.playerPressures[pid];
 }
+
+function getPlayerRankOrdinal(pid: PlayerId): string | null {
+  const r = props.calculation.influenceRanks.find((item) => item.playerId === pid);
+  if (!r || r.influence < 1) return null;
+  const effectiveRank = r.isTie ? r.bonusRank : r.rank;
+  return effectiveRank === 1 ? '1st' : effectiveRank === 2 ? '2nd' : effectiveRank === 3 ? '3rd' : '4th';
+}
 </script>
 
 <template>
@@ -89,8 +96,8 @@ function getPlayerPressure(pid: PlayerId) {
             {{ PLAYERS[pid].shortName }}
             <PenaltyBadge v-if="getPlayerPressure(pid).totalVpPenalty < 0" :size="13" />
           </span>
-          <span v-if="(calculation.playerInfluenceVp[pid] ?? 0) > 0" class="min-vp-badge">
-            +{{ calculation.playerInfluenceVp[pid] }} VP
+          <span v-if="getPlayerRankOrdinal(pid)" class="min-vp-badge">
+            {{ getPlayerRankOrdinal(pid) }}
           </span>
         </div>
         <div class="min-stats-row">
@@ -557,9 +564,9 @@ function getPlayerPressure(pid: PlayerId) {
 
     .min-vp-badge {
       font-family: var(--font-numeric);
-      font-size: 0.85rem;
+      font-size: 0.72rem;
       font-weight: 800;
-      color: #ffffff;
+      color: rgba(255, 255, 255, 0.9);
       background: transparent;
       padding: 0;
       border-radius: 0;
