@@ -35,6 +35,7 @@ function getPlayerPressure(pid: PlayerId) {
 }
 
 function getPlayerRankOrdinal(pid: PlayerId): string | null {
+  if (!gameStore.isZoneScoringActive(zone.value.id)) return null;
   const r = props.calculation.influenceRanks.find((item) => item.playerId === pid);
   if (!r || r.influence < 1) return null;
   const effectiveRank = r.isTie ? r.bonusRank : r.rank;
