@@ -34,12 +34,18 @@ function getPlayerPressure(pid: PlayerId) {
   return props.calculation.playerPressures[pid];
 }
 
+function getOrdinal(n: number): string {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 function getPlayerRankOrdinal(pid: PlayerId): string | null {
   if (!gameStore.isZoneScoringActive(zone.value.id)) return null;
   const r = props.calculation.influenceRanks.find((item) => item.playerId === pid);
   if (!r || r.influence < 1) return null;
   const effectiveRank = r.isTie ? r.bonusRank : r.rank;
-  return effectiveRank === 1 ? '1st' : effectiveRank === 2 ? '2nd' : effectiveRank === 3 ? '3rd' : '4th';
+  return getOrdinal(effectiveRank);
 }
 </script>
 
@@ -291,7 +297,7 @@ function getPlayerRankOrdinal(pid: PlayerId): string | null {
             >
               <div class="left-info">
                 <span class="rank-pos">
-                  {{ (r.isTie ? r.bonusRank : r.rank) === 1 ? '1st' : (r.isTie ? r.bonusRank : r.rank) === 2 ? '2nd' : (r.isTie ? r.bonusRank : r.rank) === 3 ? '3rd' : '4th' }}
+                  {{ getOrdinal(r.isTie ? r.bonusRank : r.rank) }}
                 </span>
                 <span class="player-name" :style="{ color: PLAYERS[r.playerId].color }">
                   {{ PLAYERS[r.playerId].shortName }}
