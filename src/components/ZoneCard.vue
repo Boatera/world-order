@@ -262,11 +262,6 @@ function getPlayerPressure(pid: PlayerId) {
 
       <!-- Influence VP Standings -->
       <div v-if="gameStore.showFormulas" class="formula-breakdown-section influence-vp-section">
-        <div class="formula-header">
-          <span class="icon">🏆</span>
-          <span>Influence VP Standings (VP Table: {{ zone.influenceVpTable.join(', ') }})</span>
-        </div>
-
         <div class="influence-vp-list">
           <template v-if="calculation.influenceRanks.some(item => item.influence >= 1)">
             <div
@@ -295,11 +290,6 @@ function getPlayerPressure(pid: PlayerId) {
 
       <!-- Detailed Formula Breakdown -->
       <div v-if="gameStore.showFormulas" class="formula-breakdown-section">
-        <div class="formula-header">
-          <span class="icon">📐</span>
-          <span>Tank Pressure Breakdown</span>
-        </div>
-
         <div class="breakdown-list">
           <template v-for="pid in zone.interestedPlayers" :key="'bd-' + pid">
             <div
@@ -889,6 +879,7 @@ function getPlayerPressure(pid: PlayerId) {
 }
 
 .influence-vp-section {
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
   background: rgba(34, 197, 94, 0.05);
   border-color: rgba(34, 197, 94, 0.2);
@@ -937,6 +928,7 @@ function getPlayerPressure(pid: PlayerId) {
 }
 
 .formula-breakdown-section {
+  margin-top: 1rem;
   background: rgba(0, 0, 0, 0.3);
   border: 1px dashed rgba(255, 255, 255, 0.12);
   border-radius: 0.5rem;
